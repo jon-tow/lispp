@@ -8,8 +8,10 @@ std::string ast_to_string(const LisppObject& ast)
 {
     std::string result = "";
     std::string padding = " ";
-
     switch (ast.type) {
+    case Type::String:
+        result = ast.str;
+        break;
     case Type::Number:
         result = std::to_string(ast.number);
         break;
@@ -38,11 +40,10 @@ std::string ast_to_string(const LisppObject& ast)
         }
         result += ")";
         break;
-    default:
-        result = "";
     }
     return result;
 }
+
 } // namespace
 
 void printer::prompt()

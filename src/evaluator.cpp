@@ -88,7 +88,7 @@ LisppObject eval_if(const LisppObject& ast, Environment& env)
 
 LisppObject eval_function(const LisppObject& ast, Environment& env)
 {
-    auto fn = [ast, env](std::vector<LisppObject> args) {
+	auto fn = [ast, &env](std::vector<LisppObject> args) {
         Environment local(std::make_shared<Environment>(env));
         auto params = syntax::function_parameters(ast);
         auto body = syntax::function_body(ast);
@@ -99,11 +99,12 @@ LisppObject eval_function(const LisppObject& ast, Environment& env)
             throw std::runtime_error(err);
         }
         for (size_t i = 0; i < params.size(); i++) {
-            auto name = params.at(i);
+            auto param = params.at(i);
             auto arg = args.at(i);
             auto value = evaluator::eval(arg, local);
-            local.set(name.symbol, value);
-        }
+            local.set(param.symbol, value);
+	}
+	local.print_symbols();
         return evaluator::eval(body, local);
     };
     return LisppObject::create_function(fn);

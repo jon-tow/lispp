@@ -76,8 +76,7 @@ LisppObject Reader::read_form()
 LisppObject Reader::read_list()
 {
     auto list = LisppObject::create_list({});
-    while (next().has_value()
-        && peek().value_or("") != ")") {
+    while (next().has_value() && peek().value_or("") != ")") {
         auto form = read_form();
         list.items.push_back(form);
     }

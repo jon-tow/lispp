@@ -31,6 +31,9 @@ std::optional<Environment> Environment::find(const std::string& key)
 
 void Environment::print_symbols()
 {
+	if (parent != nullptr) {
+		parent->print_symbols();
+	}
     for (const auto& sym : symbols) {
         std::cout << sym.first << std::endl;
     }
