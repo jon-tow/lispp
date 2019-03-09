@@ -99,10 +99,10 @@ LisppObject eval_function(const LisppObject& ast, Environment& env)
             throw std::runtime_error(err);
         }
         for (size_t i = 0; i < params.size(); i++) {
-            auto param = params.at(i);
+            auto name = params.at(i);
             auto arg = args.at(i);
             auto value = evaluator::eval(arg, local);
-            local.set(param.symbol, value);
+            local.set(name.symbol, value);
         }
         return evaluator::eval(body, local);
     };
