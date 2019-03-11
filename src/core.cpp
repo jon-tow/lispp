@@ -108,13 +108,16 @@ LisppObject core::div(std::vector<LisppObject> args)
 {
     if (args.empty()) {
 	throw std::runtime_error("\n;NaN. 0 arguments given.\n");
-    }    
+    }
     if (args.size() == 1) {
         auto num = args.at(0).number;
         return LisppObject::create_number(1.0 / num);
     }
     auto quotient = args.at(0).number;
     for (auto it = args.begin() + 1; it != args.end(); it++) {
+	if (it->number == 0) {
+       	    throw std::runtime_error("\n;Infinity. Division by zero.\n");
+	}
         quotient /= it->number;
     }
     return LisppObject::create_number(quotient);
