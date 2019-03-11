@@ -31,7 +31,6 @@ void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
 
 LisppObject equal_helper(const LisppObject& l1, const LisppObject& l2)
 {
-
     if (l1.type != l2.type) {
         return LisppObject::create_false();
     }

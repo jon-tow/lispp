@@ -64,9 +64,9 @@ LisppObject eval_local_assignment(const LisppObject& ast, Environment& env)
 {
     Environment local(std::make_shared<Environment>(env));
     auto vars = syntax::local_variables(ast);
-    for (auto i = vars.begin(); i != vars.end(); i += 2) {
-        auto name = *i;
-        auto binding = *(i + 1);
+    for (auto it = vars.begin(); it != vars.end(); it += 2) {
+        auto name = *it;
+        auto binding = *(it + 1);
         auto value = evaluator::eval(binding, local);
         local.set(name.symbol, value);
     }
