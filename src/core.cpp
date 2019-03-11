@@ -81,7 +81,14 @@ LisppObject core::add(std::vector<LisppObject> args)
 
 LisppObject core::sub(std::vector<LisppObject> args)
 {
-    auto diff = args[0].number;
+    if (args.empty()) {
+      	throw std::runtime_error("\n;NaN. 0 arguments given.\n");
+    }
+    if (args.size() == 1) {
+        auto num = args.at(0).number;
+        return LisppObject::create_number(num * -1);
+    }
+    auto diff = args.at(0).number;
     for (auto it = args.begin() + 1; it != args.end(); it++) {
         diff -= it->number;
     }
@@ -99,7 +106,14 @@ LisppObject core::mul(std::vector<LisppObject> args)
 
 LisppObject core::div(std::vector<LisppObject> args)
 {
-    auto quotient = args[0].number;
+    if (args.empty()) {
+	throw std::runtime_error("\n;NaN. 0 arguments given.\n");
+    }    
+    if (args.size() == 1) {
+        auto num = args.at(0).number;
+        return LisppObject::create_number(1.0 / num);
+    }
+    auto quotient = args.at(0).number;
     for (auto it = args.begin() + 1; it != args.end(); it++) {
         quotient /= it->number;
     }
