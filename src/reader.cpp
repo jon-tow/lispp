@@ -32,11 +32,11 @@ std::string replace(
 
 std::string clean(const std::string& text)
 {
-    std::string str(text);
-    str = replace(str, "(", " ( ");
-    str = replace(str, ")", " ) ");
-    str.erase(std::remove(str.begin(), str.end(), ','), str.end());
-    return str;
+    std::string pad(text);
+    pad = replace(pad, "(", " ( ");
+    pad = replace(pad, ")", " ) ");
+    pad.erase(std::remove(pad.begin(), pad.end(), ','), pad.end());
+    return pad;
 }
 
 std::vector<std::string> split(const std::string& text)

@@ -22,7 +22,7 @@ struct LisppObject {
     Type type = Type::Nil;
     int number = 0;
     std::string symbol = "";
-    std::string str = "";
+    std::string string = "";
     std::vector<LisppObject> items;
     std::function<LisppObject(std::vector<LisppObject>)> lambda;
 
@@ -46,9 +46,9 @@ struct LisppObject {
         return exp;
     }
 
-    static LisppObject create_string(const std::string& str)
+    static LisppObject create_string(const std::string& string)
     {
-        LisppObject exp = { .type = Type::String, .str = str };
+        LisppObject exp = { .type = Type::String, .string = string };
         return exp;
     }
 

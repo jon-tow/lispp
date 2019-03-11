@@ -10,7 +10,7 @@ std::string ast_to_string(const LisppObject& ast)
     std::string padding = " ";
     switch (ast.type) {
     case Type::String:
-        result = ast.str;
+        result = ast.string;
         break;
     case Type::Number:
         result = std::to_string(ast.number);
