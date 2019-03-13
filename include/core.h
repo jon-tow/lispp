@@ -10,8 +10,8 @@
 
 namespace core {
 
-using CoreFunction = std::function<
-    type::LisppObject(std::vector<type::LisppObject>)>;
+using CoreFunction =
+    std::function<type::LisppObject(std::vector<type::LisppObject>)>;
 
 std::unordered_map<std::string, CoreFunction> build_core();
 
@@ -34,5 +34,5 @@ type::LisppObject less_eq(std::vector<type::LisppObject> args);
 type::LisppObject greater(std::vector<type::LisppObject> args);
 type::LisppObject greater_eq(std::vector<type::LisppObject> args);
 
-}
+} // namespace core
 #endif // CORE_H

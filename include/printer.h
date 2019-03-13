@@ -10,8 +10,8 @@ namespace printer {
 
 void prompt();
 void welcome();
-void print(const type::LisppObject& ast);
+void print(const type::LisppObject &ast);
 
-}
+} // namespace printer
 
 #endif // PRINTER_H
