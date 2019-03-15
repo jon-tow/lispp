@@ -46,18 +46,6 @@ std::string ast_to_string(const LisppObject &ast)
 
 } // namespace
 
-void printer::prompt()
-{
-        std::string prompt = "]=> ";
-        std::cout << prompt;
-}
-
-void printer::welcome()
-{
-        std::string welcome = "\nWelcome to Lispp.\nA LISP in C++.\n";
-        std::cout << welcome << std::endl;
-}
-
 std::string printer::print(const LisppObject &ast)
 {
         return ast_to_string(ast);
@@ -68,4 +56,16 @@ void printer::format_print(const std::string &ast_output)
         std::string value_prompt = ";Value: ";
         std::string output = "\n" + value_prompt + ast_output + "\n";
         std::cout << output << std::endl;
+}
+
+void printer::prompt()
+{
+        std::string prompt = "]=> ";
+        std::cout << prompt;
+}
+
+void printer::welcome()
+{
+        std::string welcome = "\nWelcome to Lispp.\nA LISP in C++.\n";
+        std::cout << welcome << std::endl;
 }
