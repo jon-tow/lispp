@@ -58,10 +58,14 @@ void printer::welcome()
         std::cout << welcome << std::endl;
 }
 
-void printer::print(const LisppObject &ast)
+std::string printer::print(const LisppObject &ast)
+{
+        return ast_to_string(ast);
+}
+
+void printer::format_print(const std::string &ast_output)
 {
         std::string value_prompt = ";Value: ";
-        std::string ast_output = ast_to_string(ast);
         std::string output = "\n" + value_prompt + ast_output + "\n";
         std::cout << output << std::endl;
 }

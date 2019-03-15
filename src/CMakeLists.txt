@@ -4,6 +4,7 @@ set (SOURCES
     reader.cpp
     environment.cpp
     evaluator.cpp
+    interpreter.cpp
     printer.cpp
 )
 
