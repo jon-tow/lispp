@@ -12,7 +12,7 @@ LisppObject Environment::lookup(const std::string &sym)
         std::optional<Environment> opt = find(sym);
         if (opt.has_value()) {
                 auto env = opt.value();
-                return env.symbols[sym];
+                return env.symbols[sym];		
         }
         else {
                 throw unbound_symbol_error(sym);

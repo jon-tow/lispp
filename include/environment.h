@@ -20,7 +20,7 @@ class Environment {
         }
 
         type::LisppObject lookup(const std::string &sym);
-        void set(const std::string &key, const type::LisppObject &sym);
+        void set(const std::string &sym, const type::LisppObject &value);
         void print_symbols();
 
         static Environment setup();
@@ -28,7 +28,6 @@ class Environment {
       private:
         std::shared_ptr<Environment> parent;
         std::unordered_map<std::string, type::LisppObject> symbols;
-
         std::optional<Environment> find(const std::string &sym);
 };
 
