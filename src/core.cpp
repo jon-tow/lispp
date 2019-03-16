@@ -4,7 +4,7 @@ using namespace type;
 
 namespace {
 
-void set_arithmetic(std::unordered_map<std::string, core::CoreFunction> &ns)
+void set_arithmetic(std::unordered_map<std::string, core::CoreFunction>& ns)
 {
         ns["+"] = &core::add;
         ns["-"] = &core::sub;
@@ -13,7 +13,7 @@ void set_arithmetic(std::unordered_map<std::string, core::CoreFunction> &ns)
 }
 
 void set_list_processing(
-    std::unordered_map<std::string, core::CoreFunction> &ns)
+    std::unordered_map<std::string, core::CoreFunction>& ns)
 {
         ns["list"] = &core::list;
         ns["list?"] = &core::is_list;
@@ -21,7 +21,7 @@ void set_list_processing(
         ns["count"] = &core::count;
 }
 
-void set_logic(std::unordered_map<std::string, core::CoreFunction> &ns)
+void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
 {
         ns["="] = &core::equal;
         ns["<"] = &core::less;
@@ -30,7 +30,7 @@ void set_logic(std::unordered_map<std::string, core::CoreFunction> &ns)
         ns[">="] = &core::greater_eq;
 }
 
-LisppObject equal_helper(const LisppObject &l1, const LisppObject &l2)
+LisppObject equal_helper(const LisppObject& l1, const LisppObject& l2)
 {
         if (l1.type != l2.type) {
                 return LisppObject::create_false();
@@ -71,7 +71,7 @@ std::unordered_map<std::string, core::CoreFunction> core::build_core()
 LisppObject core::add(std::vector<LisppObject> args)
 {
         auto sum = 0;
-        for (const auto &arg : args) {
+        for (const auto& arg : args) {
                 sum += arg.number;
         }
         return LisppObject::create_number(sum);
@@ -96,7 +96,7 @@ LisppObject core::sub(std::vector<LisppObject> args)
 LisppObject core::mul(std::vector<LisppObject> args)
 {
         auto prod = 1;
-        for (const auto &arg : args) {
+        for (const auto& arg : args) {
                 prod *= arg.number;
         }
         return LisppObject::create_number(prod);

@@ -1,6 +1,6 @@
 #include "interpreter.h"
 
-std::string interpreter::REP(const std::string &line, Environment &env)
+std::string interpreter::REP(const std::string& line, Environment& env)
 {
         auto expression = Reader::read(line);
         auto value = evaluator::eval(expression, env);

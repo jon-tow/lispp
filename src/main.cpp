@@ -16,13 +16,13 @@ int main()
         while (true) {
                 printer::prompt();
                 std::getline(std::cin, line);
-		try {
-			auto output = interpreter::REP(line, global_env);
-			printer::format_print(output);
-		}
-		catch (std::runtime_error err) {
-			std::cout << err.what() << std::endl;
-		}
+                try {
+                        auto output = interpreter::REP(line, global_env);
+                        printer::format_print(output);
+                }
+                catch (std::runtime_error err) {
+                        std::cout << err.what() << std::endl;
+                }
         }
         return 0;
 }

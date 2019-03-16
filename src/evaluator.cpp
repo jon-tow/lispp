@@ -4,23 +4,23 @@ using namespace type;
 
 namespace {
 
-LisppObject eval_symbol(const LisppObject &ast, Environment &env)
+LisppObject eval_symbol(const LisppObject& ast, Environment& env)
 {
         auto symbol = env.lookup(ast.symbol);
         return symbol;
 }
 
-LisppObject eval_list(const LisppObject &ast, Environment &env)
+LisppObject eval_list(const LisppObject& ast, Environment& env)
 {
         auto list = LisppObject::create_list({});
-        for (const auto &item : ast.items) {
+        for (const auto& item : ast.items) {
                 auto value = evaluator::eval(item, env);
                 list.items.push_back(value);
         }
         return list;
 }
 
-LisppObject eval_ast(const LisppObject &ast, Environment &env)
+LisppObject eval_ast(const LisppObject& ast, Environment& env)
 {
         switch (ast.type) {
         case Type::Symbol:
@@ -32,7 +32,7 @@ LisppObject eval_ast(const LisppObject &ast, Environment &env)
         }
 }
 
-LisppObject eval_definition(const LisppObject &ast, Environment &env)
+LisppObject eval_definition(const LisppObject& ast, Environment& env)
 {
         auto name = syntax::definition_variable(ast);
         auto value_arg = syntax::definition_value(ast);
@@ -41,7 +41,7 @@ LisppObject eval_definition(const LisppObject &ast, Environment &env)
         return value;
 }
 
-LisppObject eval_assignment(const LisppObject &ast, Environment &env)
+LisppObject eval_assignment(const LisppObject& ast, Environment& env)
 {
         auto var = syntax::variable(ast);
         auto update = syntax::variable_update(ast);
@@ -50,7 +50,7 @@ LisppObject eval_assignment(const LisppObject &ast, Environment &env)
         return new_value;
 }
 
-LisppObject eval_local_assignment(const LisppObject &ast, Environment &env)
+LisppObject eval_local_assignment(const LisppObject& ast, Environment& env)
 {
         Environment local(std::make_shared<Environment>(env));
         auto vars = syntax::local_variables(ast);
@@ -64,7 +64,7 @@ LisppObject eval_local_assignment(const LisppObject &ast, Environment &env)
         return evaluator::eval(body, local);
 }
 
-LisppObject eval_if(const LisppObject &ast, Environment &env)
+LisppObject eval_if(const LisppObject& ast, Environment& env)
 {
         auto predicate = syntax::if_predicate(ast);
         predicate = evaluator::eval(predicate, env);
@@ -76,7 +76,7 @@ LisppObject eval_if(const LisppObject &ast, Environment &env)
         return evaluator::eval(alternative, env);
 }
 
-LisppObject eval_function(const LisppObject &ast, Environment &env)
+LisppObject eval_function(const LisppObject& ast, Environment& env)
 {
         auto fn = [ast, &env](std::vector<LisppObject> args) {
                 Environment local(std::make_shared<Environment>(env));
@@ -101,14 +101,14 @@ LisppObject eval_function(const LisppObject &ast, Environment &env)
         return LisppObject::create_function(fn);
 }
 
-bool is_self_evaluating(const LisppObject &ast)
+bool is_self_evaluating(const LisppObject& ast)
 {
         return ast.is_number() || ast.is_string() || ast.is_symbol();
 }
 
 } // namespace
 
-LisppObject evaluator::eval(const LisppObject &ast, Environment &env)
+LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
 {
         if (is_self_evaluating(ast)) {
                 return eval_ast(ast, env);
@@ -143,8 +143,8 @@ LisppObject evaluator::eval(const LisppObject &ast, Environment &env)
         }
 }
 
-LisppObject evaluator::apply(const LisppObject &procedure,
-                             const std::vector<LisppObject> &arguments)
+LisppObject evaluator::apply(const LisppObject& procedure,
+                             const std::vector<LisppObject>& arguments)
 {
         auto result = procedure.lambda(arguments);
         return result;

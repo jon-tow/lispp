@@ -16,13 +16,13 @@
 class Reader {
       public:
         Reader() = default;
-        Reader(const std::vector<std::string> &tokens)
+        Reader(const std::vector<std::string>& tokens)
             : tokens{tokens}, position{0}
         {
         }
 
-        static type::LisppObject read(const std::string &program);
-        static std::vector<std::string> tokenize(const std::string &text);
+        static type::LisppObject read(const std::string& program);
+        static std::vector<std::string> tokenize(const std::string& text);
 
         type::LisppObject read_form();
         type::LisppObject read_list();

@@ -4,7 +4,7 @@ using namespace type;
 
 namespace {
 
-std::string ast_to_string(const LisppObject &ast)
+std::string ast_to_string(const LisppObject& ast)
 {
         std::string result = "";
         std::string padding = " ";
@@ -46,15 +46,15 @@ std::string ast_to_string(const LisppObject &ast)
 
 } // namespace
 
-std::string printer::print(const LisppObject &ast)
+std::string printer::print(const LisppObject& ast)
 {
         return ast_to_string(ast);
 }
 
-void printer::format_print(const std::string &ast_output)
+void printer::format_print(const std::string& ast_str)
 {
         std::string value_prompt = ";Value: ";
-        std::string output = "\n" + value_prompt + ast_output + "\n";
+        std::string output = "\n" + value_prompt + ast_str + "\n";
         std::cout << output << std::endl;
 }
 

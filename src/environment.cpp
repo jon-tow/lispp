@@ -2,24 +2,24 @@
 
 using namespace type;
 
-void Environment::set(const std::string &sym, const LisppObject &value)
+void Environment::set(const std::string& sym, const LisppObject& value)
 {
         symbols[sym] = value;
 }
 
-LisppObject Environment::lookup(const std::string &sym)
+LisppObject Environment::lookup(const std::string& sym)
 {
         std::optional<Environment> opt = find(sym);
         if (opt.has_value()) {
                 auto env = opt.value();
-                return env.symbols[sym];		
+                return env.symbols[sym];
         }
         else {
                 throw unbound_symbol_error(sym);
         }
 }
 
-std::optional<Environment> Environment::find(const std::string &sym)
+std::optional<Environment> Environment::find(const std::string& sym)
 {
         bool found = symbols.find(sym) != symbols.end();
         if (found) {
@@ -35,7 +35,7 @@ std::optional<Environment> Environment::find(const std::string &sym)
 
 void Environment::print_symbols()
 {
-        for (const auto &sym : symbols) {
+        for (const auto& sym : symbols) {
                 std::cout << sym.first << std::endl;
         }
 }
@@ -44,7 +44,7 @@ Environment Environment::setup()
 {
         Environment env;
         auto ns = core::build_core();
-        for (const auto &name_op : ns) {
+        for (const auto& name_op : ns) {
                 auto name = name_op.first;
                 auto op = LisppObject::create_function(name_op.second);
                 env.set(name, op);

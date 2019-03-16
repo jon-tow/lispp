@@ -8,8 +8,8 @@
 
 namespace printer {
 
-std::string print(const type::LisppObject &ast);
-void format_print(const std::string &ast);
+std::string print(const type::LisppObject& ast);
+void format_print(const std::string& ast);
 void prompt();
 void welcome();
 

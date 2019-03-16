@@ -8,9 +8,9 @@
 
 namespace evaluator {
 
-type::LisppObject eval(const type::LisppObject &ast, Environment &env);
-type::LisppObject apply(const type::LisppObject &procedure,
-                        const std::vector<type::LisppObject> &arguments);
+type::LisppObject eval(const type::LisppObject& ast, Environment& env);
+type::LisppObject apply(const type::LisppObject& procedure,
+                        const std::vector<type::LisppObject>& arguments);
 
 } // namespace evaluator
 

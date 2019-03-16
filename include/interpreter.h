@@ -7,7 +7,7 @@
 #include "reader.h"
 
 namespace interpreter {
-std::string REP(const std::string &line, Environment &env);
+std::string REP(const std::string& line, Environment& env);
 }
 
 #endif

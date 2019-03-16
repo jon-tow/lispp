@@ -4,7 +4,7 @@ using namespace type;
 
 namespace {
 
-std::optional<int> string_to_number(const std::string &text)
+std::optional<int> string_to_number(const std::string& text)
 {
         auto number = 0;
         auto data = text.data();
@@ -16,8 +16,8 @@ std::optional<int> string_to_number(const std::string &text)
         return number;
 }
 
-std::string replace(const std::string &text, const std::string &old,
-                    const std::string &update)
+std::string replace(const std::string& text, const std::string& old,
+                    const std::string& update)
 {
         std::string str(text);
         auto pos = str.find(old);
@@ -28,7 +28,7 @@ std::string replace(const std::string &text, const std::string &old,
         return str;
 }
 
-std::string clean(const std::string &text)
+std::string clean(const std::string& text)
 {
         std::string pad(text);
         pad = replace(pad, "(", " ( ");
@@ -37,7 +37,7 @@ std::string clean(const std::string &text)
         return pad;
 }
 
-std::vector<std::string> split(const std::string &text)
+std::vector<std::string> split(const std::string& text)
 {
         std::istringstream buff(text);
         std::vector<std::string> split(
@@ -48,14 +48,14 @@ std::vector<std::string> split(const std::string &text)
 
 } // namespace
 
-LisppObject Reader::read(const std::string &program)
+LisppObject Reader::read(const std::string& program)
 {
         auto tokens = tokenize(program);
         auto reader = Reader(tokens);
         return reader.read_form();
 }
 
-std::vector<std::string> Reader::tokenize(const std::string &text)
+std::vector<std::string> Reader::tokenize(const std::string& text)
 {
         std::string cleaned = clean(text);
         auto tokens = split(cleaned);

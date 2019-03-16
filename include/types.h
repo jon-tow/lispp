@@ -37,19 +37,19 @@ struct LisppObject {
                 return exp;
         }
 
-        static LisppObject create_string(const std::string &string)
+        static LisppObject create_string(const std::string& string)
         {
                 LisppObject exp = {.type = Type::String, .string = string};
                 return exp;
         }
 
-        static LisppObject create_symbol(const std::string &symbol)
+        static LisppObject create_symbol(const std::string& symbol)
         {
                 LisppObject exp = {.type = Type::Symbol, .symbol = symbol};
                 return exp;
         }
 
-        static LisppObject create_list(const std::vector<LisppObject> &list)
+        static LisppObject create_list(const std::vector<LisppObject>& list)
         {
                 LisppObject exp = {.type = Type::List, .items = list};
                 return exp;

@@ -35,12 +35,12 @@ inline bool out_of_bounds(size_t index, size_t size) { return index >= size; }
 
 /* Definition Selectors */
 
-inline bool is_definition(const std::string &symbol)
+inline bool is_definition(const std::string& symbol)
 {
         return symbol == specials[SpecialForm::definition];
 }
 
-inline type::LisppObject definition_variable(const type::LisppObject &expr)
+inline type::LisppObject definition_variable(const type::LisppObject& expr)
 {
         size_t def_pos = 1;
         if (out_of_bounds(def_pos, expr.items.size())) {
@@ -49,7 +49,7 @@ inline type::LisppObject definition_variable(const type::LisppObject &expr)
         return expr.items.at(def_pos);
 }
 
-inline type::LisppObject definition_value(const type::LisppObject &expr)
+inline type::LisppObject definition_value(const type::LisppObject& expr)
 {
         size_t def_value = 2;
         if (out_of_bounds(def_value, expr.items.size())) {
@@ -60,12 +60,12 @@ inline type::LisppObject definition_value(const type::LisppObject &expr)
 
 /* Assignment Selectors */
 
-inline bool is_assigment(const std::string &symbol)
+inline bool is_assigment(const std::string& symbol)
 {
         return symbol == specials[SpecialForm::assignment];
 }
 
-inline type::LisppObject variable(const type::LisppObject &expr)
+inline type::LisppObject variable(const type::LisppObject& expr)
 {
         size_t var_pos = 1;
         if (out_of_bounds(var_pos, expr.items.size())) {
@@ -74,7 +74,7 @@ inline type::LisppObject variable(const type::LisppObject &expr)
         return expr.items.at(var_pos);
 }
 
-inline type::LisppObject variable_update(const type::LisppObject &expr)
+inline type::LisppObject variable_update(const type::LisppObject& expr)
 {
         size_t update_pos = 2;
         if (out_of_bounds(update_pos, expr.items.size())) {
@@ -85,13 +85,13 @@ inline type::LisppObject variable_update(const type::LisppObject &expr)
 
 /* Local Assignment Selectors */
 
-inline bool is_local_assignment(const std::string &symbol)
+inline bool is_local_assignment(const std::string& symbol)
 {
         return symbol == specials[SpecialForm::local_assignment];
 }
 
 inline std::vector<type::LisppObject>
-local_variables(const type::LisppObject &expr)
+local_variables(const type::LisppObject& expr)
 {
         size_t bind_pos = 1;
         if (out_of_bounds(bind_pos, expr.items.size())) {
@@ -101,7 +101,7 @@ local_variables(const type::LisppObject &expr)
         return bindings.items;
 }
 
-inline type::LisppObject local_body(const type::LisppObject &expr)
+inline type::LisppObject local_body(const type::LisppObject& expr)
 {
         size_t body_pos = 2;
         if (out_of_bounds(body_pos, expr.items.size())) {
@@ -112,13 +112,13 @@ inline type::LisppObject local_body(const type::LisppObject &expr)
 
 /* Function Selectors */
 
-inline bool is_function(const std::string &symbol)
+inline bool is_function(const std::string& symbol)
 {
         return symbol == specials[SpecialForm::function];
 }
 
 inline std::vector<type::LisppObject>
-function_parameters(const type::LisppObject &expr)
+function_parameters(const type::LisppObject& expr)
 {
         size_t params_pos = 1;
         if (out_of_bounds(params_pos, expr.items.size())) {
@@ -128,7 +128,7 @@ function_parameters(const type::LisppObject &expr)
         return params.items;
 }
 
-inline type::LisppObject function_body(const type::LisppObject &expr)
+inline type::LisppObject function_body(const type::LisppObject& expr)
 {
         size_t body_pos = 2;
         if (out_of_bounds(body_pos, expr.items.size())) {
@@ -137,7 +137,7 @@ inline type::LisppObject function_body(const type::LisppObject &expr)
         return expr.items.at(body_pos);
 }
 
-inline type::LisppObject get_operator(const type::LisppObject &expr)
+inline type::LisppObject get_operator(const type::LisppObject& expr)
 {
         if (expr.items.empty()) {
                 throw ill_form_error("function");
@@ -146,7 +146,7 @@ inline type::LisppObject get_operator(const type::LisppObject &expr)
 }
 
 inline std::vector<type::LisppObject>
-get_operands(const type::LisppObject &expr)
+get_operands(const type::LisppObject& expr)
 {
         if (expr.items.size() < 2) {
                 throw ill_form_error("function");
@@ -158,12 +158,12 @@ get_operands(const type::LisppObject &expr)
 
 /* If Selectors */
 
-inline bool is_if(const std::string &symbol)
+inline bool is_if(const std::string& symbol)
 {
         return symbol == specials[SpecialForm::conditional_if];
 }
 
-inline type::LisppObject if_predicate(const type::LisppObject &expr)
+inline type::LisppObject if_predicate(const type::LisppObject& expr)
 {
         size_t pred_pos = 1;
         if (out_of_bounds(pred_pos, expr.items.size())) {
@@ -172,7 +172,7 @@ inline type::LisppObject if_predicate(const type::LisppObject &expr)
         return expr.items.at(pred_pos);
 }
 
-inline type::LisppObject if_consequent(const type::LisppObject &expr)
+inline type::LisppObject if_consequent(const type::LisppObject& expr)
 {
         size_t cons_pos = 2;
         if (out_of_bounds(cons_pos, expr.items.size())) {
@@ -181,7 +181,7 @@ inline type::LisppObject if_consequent(const type::LisppObject &expr)
         return expr.items.at(cons_pos);
 }
 
-inline type::LisppObject if_alternative(const type::LisppObject &expr)
+inline type::LisppObject if_alternative(const type::LisppObject& expr)
 {
         size_t alt_pos = 3;
         if (expr.items.size() < 4) {
