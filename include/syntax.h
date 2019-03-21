@@ -142,7 +142,11 @@ inline type::LisppObject get_operator(const type::LisppObject& expr)
         if (expr.items.empty()) {
                 throw ill_form_error("function");
         }
-        return expr.items.front();
+        auto op = expr.items.front();
+        if (!op.is_function()) {
+                throw ill_form_error("object is not callable");
+        }
+        return op;
 }
 
 inline std::vector<type::LisppObject>
@@ -190,6 +194,6 @@ inline type::LisppObject if_alternative(const type::LisppObject& expr)
         return expr.items.at(alt_pos);
 }
 
-}; // namespace syntax
+} // namespace syntax
 
-#endif
+#endif // SYNTAX_H
