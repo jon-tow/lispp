@@ -75,4 +75,5 @@ struct LisppObject {
         }
 };
 } // namespace type
+
 #endif // TYPES_H

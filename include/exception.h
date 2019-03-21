@@ -20,4 +20,4 @@ class ill_form_error : public std::runtime_error {
         }
 };
 
-#endif
+#endif // EXCEPTION_H

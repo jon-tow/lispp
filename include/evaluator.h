@@ -14,4 +14,4 @@ type::LisppObject apply(const type::LisppObject& procedure,
 
 } // namespace evaluator
 
-#endif
+#endif // EVALUATOR_H

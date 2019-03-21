@@ -35,4 +35,5 @@ type::LisppObject greater(std::vector<type::LisppObject> args);
 type::LisppObject greater_eq(std::vector<type::LisppObject> args);
 
 } // namespace core
+
 #endif // CORE_H
