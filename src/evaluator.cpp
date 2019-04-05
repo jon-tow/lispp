@@ -6,8 +6,7 @@ namespace {
 
 LisppObject eval_symbol(const LisppObject& ast, Environment& env)
 {
-        auto symbol = env.lookup(ast.symbol);
-        return symbol;
+        return env.lookup(ast.symbol);
 }
 
 LisppObject eval_list(const LisppObject& ast, Environment& env)
