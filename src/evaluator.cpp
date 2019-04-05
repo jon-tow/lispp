@@ -34,18 +34,18 @@ LisppObject eval_ast(const LisppObject& ast, Environment& env)
 
 LisppObject eval_definition(const LisppObject& ast, Environment& env)
 {
-        auto name = syntax::definition_variable(ast);
-        auto value_arg = syntax::definition_value(ast);
-        auto value = evaluator::eval(value_arg, env);
+        LisppObject name = syntax::definition_variable(ast);
+        LisppObject value_arg = syntax::definition_value(ast);
+        LisppObject value = evaluator::eval(value_arg, env);
         env.set(name.symbol, value);
         return value;
 }
 
 LisppObject eval_assignment(const LisppObject& ast, Environment& env)
 {
-        auto var = syntax::variable(ast);
-        auto update = syntax::variable_update(ast);
-        auto new_value = evaluator::eval(update, env);
+        LisppObject var = syntax::variable(ast);
+        LisppObject update = syntax::variable_update(ast);
+        LisppObject new_value = evaluator::eval(update, env);
         env.set(var.symbol, new_value);
         return new_value;
 }
@@ -53,26 +53,26 @@ LisppObject eval_assignment(const LisppObject& ast, Environment& env)
 LisppObject eval_local_assignment(const LisppObject& ast, Environment& env)
 {
         Environment local(std::make_shared<Environment>(env));
-        auto vars = syntax::local_variables(ast);
+	std::vector<LisppObject> vars = syntax::local_variables(ast);
         for (auto it = vars.begin(); it != vars.end(); it += 2) {
                 auto name = *it;
                 auto binding = *(it + 1);
                 auto value = evaluator::eval(binding, local);
                 local.set(name.symbol, value);
         }
-        auto body = syntax::local_body(ast);
+        LisppObject body = syntax::local_body(ast);
         return evaluator::eval(body, local);
 }
 
 LisppObject eval_if(const LisppObject& ast, Environment& env)
 {
-        auto predicate = syntax::if_predicate(ast);
-        predicate = evaluator::eval(predicate, env);
-        if (predicate.is_true()) {
-                auto consequent = syntax::if_consequent(ast);
+        LisppObject predicate = syntax::if_predicate(ast);
+        LisppObject predicate_value = evaluator::eval(predicate, env);
+        if (predicate_value.is_true()) {
+                LisppObject consequent = syntax::if_consequent(ast);
                 return evaluator::eval(consequent, env);
         }
-        auto alternative = syntax::if_alternative(ast);
+        LisppObject alternative = syntax::if_alternative(ast);
         return evaluator::eval(alternative, env);
 }
 
@@ -80,8 +80,8 @@ LisppObject eval_function(const LisppObject& ast, Environment& env)
 {
         auto fn = [ast, &env](std::vector<LisppObject> args) {
                 Environment local(std::make_shared<Environment>(env));
-                auto params = syntax::function_parameters(ast);
-                auto body = syntax::function_body(ast);
+		std::vector<LisppObject> params = syntax::function_parameters(ast);
+                LisppObject body = syntax::function_body(ast);
                 if (args.size() != params.size()) {
                         std::string err =
                             "\n;The procedure has been called with " +
@@ -136,9 +136,9 @@ LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
                 return eval_function(ast, env);
         }
         else {
-                auto list = eval_ast(ast, env);
-                auto procedure = syntax::get_operator(list);
-                auto args = syntax::get_operands(list);
+                LisppObject list = eval_ast(ast, env);
+                LisppObject procedure = syntax::get_operator(list);
+		std::vector<LisppObject> args = syntax::get_operands(list);
                 return evaluator::apply(procedure, args);
         }
 }
@@ -146,6 +146,5 @@ LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
 LisppObject evaluator::apply(const LisppObject& procedure,
                              const std::vector<LisppObject>& arguments)
 {
-        auto result = procedure.lambda(arguments);
-        return result;
+        return procedure.lambda(arguments);
 }
