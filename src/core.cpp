@@ -19,6 +19,8 @@ void set_list_processing(
         ns["list?"] = &core::is_list;
         ns["empty?"] = &core::is_empty;
         ns["count"] = &core::count;
+        ns["first"] = &core::first;
+        ns["rest"] = &core::rest;
 }
 
 void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
@@ -148,6 +150,32 @@ LisppObject core::count(std::vector<LisppObject> args)
         auto list = args.front();
         auto count = list.items.size();
         return LisppObject::create_number(count); // (size_t -> double) cast
+}
+
+LisppObject core::first(std::vector<LisppObject> args)
+{
+        auto list = args.front();
+        if (list.items.empty()) {
+                throw std::runtime_error(
+                    "\n;Empty List. Cannot return the (first <list>) "
+                    "element.\n");
+        }
+        return list.items.front();
+}
+
+LisppObject core::rest(std::vector<LisppObject> args)
+{
+        auto list = args.front();
+        if (list.items.empty()) {
+                throw std::runtime_error(
+                    "\n;Empty List. Cannot return the (rest <list>) "
+                    "of the elements.\n");
+        }
+        if (list.items.size() == 1) {
+                return LisppObject::create_list({});
+        }
+        std::vector<LisppObject> rest{list.items.begin() + 1, list.items.end()};
+        return LisppObject::create_list(rest);
 }
 
 // Logic

@@ -27,6 +27,8 @@ type::LisppObject list(std::vector<type::LisppObject> args);
 type::LisppObject is_list(std::vector<type::LisppObject> args);
 type::LisppObject is_empty(std::vector<type::LisppObject> args);
 type::LisppObject count(std::vector<type::LisppObject> args);
+type::LisppObject first(std::vector < type::LisppObject> args);
+type::LisppObject rest(std::vector<type::LisppObject> args);
 
 // Logic
 type::LisppObject equal(std::vector<type::LisppObject> args);
