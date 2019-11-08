@@ -70,9 +70,10 @@ LisppObject eval_if(const LisppObject& ast, Environment& env)
         if (predicate_value.is_true()) {
                 LisppObject consequent = syntax::if_consequent(ast);
                 return evaluator::eval(consequent, env);
+        } else {
+          LisppObject alternative = syntax::if_alternative(ast);
+          return evaluator::eval(alternative, env);
         }
-        LisppObject alternative = syntax::if_alternative(ast);
-        return evaluator::eval(alternative, env);
 }
 
 LisppObject eval_function(const LisppObject& ast, Environment& env)
@@ -135,10 +136,10 @@ LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
                 return eval_function(ast, env);
         }
         else {
-                LisppObject list = eval_ast(ast, env);
-                LisppObject procedure = syntax::get_operator(list);
-                std::vector<LisppObject> args = syntax::get_operands(list);
-                return evaluator::apply(procedure, args);
+                LisppObject ast = eval_ast(ast, env);
+                LisppObject op = syntax::apply_operator(ast);
+                std::vector<LisppObject> operands = syntax::apply_operands(ast);
+                return evaluator::apply(op, operands);
         }
 }
 
