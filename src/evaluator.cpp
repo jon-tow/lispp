@@ -136,9 +136,9 @@ LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
                 return eval_function(ast, env);
         }
         else {
-                LisppObject ast = eval_ast(ast, env);
-                LisppObject op = syntax::apply_operator(ast);
-                std::vector<LisppObject> operands = syntax::apply_operands(ast);
+                LisppObject ast_value = eval_ast(ast, env);
+                LisppObject op = syntax::apply_operator(ast_value);
+                std::vector<LisppObject> operands = syntax::apply_operands(ast_value);
                 return evaluator::apply(op, operands);
         }
 }
