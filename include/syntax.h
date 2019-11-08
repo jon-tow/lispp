@@ -149,9 +149,15 @@ inline bool is_function(const std::string& symbol)
 inline std::vector<type::LisppObject>
 function_parameters(const type::LisppObject& expr)
 {
+        // params_pos: 1
+        // (fn  (<parameters>) <body>)
+        // _^___^______________^______
+        //  0   1              2
         size_t params_pos = 1;
         if (out_of_bounds(params_pos, expr.items.size())) {
-                throw ill_form_error("local assignment");
+                throw ill_form_error("missing function paramters.\n\n"
+                                     "(fn (<parameters>) <body>)\n"
+                                     "____^_____________________");
         }
         auto params = expr.items.at(params_pos);
         return params.items;
@@ -159,9 +165,15 @@ function_parameters(const type::LisppObject& expr)
 
 inline type::LisppObject function_body(const type::LisppObject& expr)
 {
+        // body_pos: 2
+        // (fn  (<parameters>) <body>)
+        // _^___^______________^______
+        //  0   1              2
         size_t body_pos = 2;
         if (out_of_bounds(body_pos, expr.items.size())) {
-                throw ill_form_error("function");
+                throw ill_form_error("missing function body.\n\n"
+                                     "(fn (<parameters>) <body>)\n"
+                                     "___________________^______");
         }
         return expr.items.at(body_pos);
 }

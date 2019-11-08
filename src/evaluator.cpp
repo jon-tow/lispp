@@ -77,11 +77,10 @@ LisppObject eval_if(const LisppObject& ast, Environment& env)
 
 LisppObject eval_function(const LisppObject& ast, Environment& env)
 {
-        auto fn = [ast, &env](std::vector<LisppObject> args) {
+        std::vector<LisppObject> params = syntax::function_parameters(ast);
+        LisppObject body = syntax::function_body(ast);
+        auto fn = [params, body, &env](std::vector<LisppObject> args) {
                 Environment local(std::make_shared<Environment>(env));
-                std::vector<LisppObject> params =
-                    syntax::function_parameters(ast);
-                LisppObject body = syntax::function_body(ast);
                 if (args.size() != params.size()) {
                         std::string err =
                             "\n;The procedure has been called with " +
