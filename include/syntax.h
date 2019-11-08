@@ -178,11 +178,10 @@ inline type::LisppObject function_body(const type::LisppObject& expr)
         return expr.items.at(body_pos);
 }
 
-inline type::LisppObject get_operator(const type::LisppObject& expr)
+// Apply Selectors
+
+inline type::LisppObject apply_operator(const type::LisppObject& expr)
 {
-        // if (expr.items.empty()) {
-        //         throw ill_form_error("function");
-        // }
         auto op = expr.items.front();
         if (!op.is_function()) {
                 throw ill_form_error("object is not callable");
@@ -191,11 +190,9 @@ inline type::LisppObject get_operator(const type::LisppObject& expr)
 }
 
 inline std::vector<type::LisppObject>
-get_operands(const type::LisppObject& expr)
+apply_operands(const type::LisppObject& expr)
 {
-        // if (expr.items.size() < 2) {
-        //         throw ill_form_error("function");
-        // }
+        // TODO: Make sure number operands are same as what's expected?
         std::vector<type::LisppObject> l = expr.items;
         std::vector<type::LisppObject> operands(l.begin() + 1, l.end());
         return operands;
