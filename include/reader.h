@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "syntax.h"
-#include "types.h"
+#include "type.h"
 
 class Reader {
       public:

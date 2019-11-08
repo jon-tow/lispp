@@ -4,7 +4,7 @@
 #include "environment.h"
 #include "exception.h"
 #include "syntax.h"
-#include "types.h"
+#include "type.h"
 
 namespace evaluator {
 

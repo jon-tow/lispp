@@ -9,7 +9,7 @@
 
 #include "core.h"
 #include "exception.h"
-#include "types.h"
+#include "type.h"
 
 class Environment {
       public:

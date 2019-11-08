@@ -1,23 +1,16 @@
-#ifndef SPECIALS_H
-#define SPECIALS_H
+#ifndef keywords_H
+#define keywords_H
 
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "exception.h"
-#include "types.h"
+#include "type.h"
 
 namespace syntax {
 
-static std::unordered_map<type::Type, std::string> types = {
-    {type::Type::Nil, "nil"},
-    {type::Type::True, "true"},
-    {type::Type::False, "false"},
-    {type::Type::List, "list"},
-};
-
-enum class SpecialForm {
+enum class KeywordKind {
         definition,
         assignment,
         local_assignment,
@@ -25,10 +18,10 @@ enum class SpecialForm {
         conditional_if,
 };
 
-static std::unordered_map<SpecialForm, std::string> specials = {
-    {SpecialForm::definition, "def"},       {SpecialForm::assignment, "set"},
-    {SpecialForm::local_assignment, "let"}, {SpecialForm::function, "fn"},
-    {SpecialForm::conditional_if, "if"},
+static std::unordered_map<KeywordKind, std::string> keywords = {
+    {KeywordKind::definition, "def"},       {KeywordKind::assignment, "set"},
+    {KeywordKind::local_assignment, "let"}, {KeywordKind::function, "fn"},
+    {KeywordKind::conditional_if, "if"},
 };
 
 inline bool out_of_bounds(size_t index, size_t size) { return index >= size; }
@@ -37,7 +30,7 @@ inline bool out_of_bounds(size_t index, size_t size) { return index >= size; }
 
 inline bool is_definition(const std::string& symbol)
 {
-        return symbol == specials[SpecialForm::definition];
+        return symbol == keywords[KeywordKind::definition];
 }
 
 inline type::LisppObject definition_variable(const type::LisppObject& expr)
@@ -62,7 +55,7 @@ inline type::LisppObject definition_value(const type::LisppObject& expr)
 
 inline bool is_assigment(const std::string& symbol)
 {
-        return symbol == specials[SpecialForm::assignment];
+        return symbol == keywords[KeywordKind::assignment];
 }
 
 inline type::LisppObject variable(const type::LisppObject& expr)
@@ -87,7 +80,7 @@ inline type::LisppObject variable_update(const type::LisppObject& expr)
 
 inline bool is_local_assignment(const std::string& symbol)
 {
-        return symbol == specials[SpecialForm::local_assignment];
+        return symbol == keywords[KeywordKind::local_assignment];
 }
 
 inline std::vector<type::LisppObject>
@@ -114,7 +107,7 @@ inline type::LisppObject local_body(const type::LisppObject& expr)
 
 inline bool is_function(const std::string& symbol)
 {
-        return symbol == specials[SpecialForm::function];
+        return symbol == keywords[KeywordKind::function];
 }
 
 inline std::vector<type::LisppObject>
@@ -164,7 +157,7 @@ get_operands(const type::LisppObject& expr)
 
 inline bool is_if(const std::string& symbol)
 {
-        return symbol == specials[SpecialForm::conditional_if];
+        return symbol == keywords[KeywordKind::conditional_if];
 }
 
 inline type::LisppObject if_predicate(const type::LisppObject& expr)

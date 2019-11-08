@@ -94,13 +94,13 @@ LisppObject Reader::read_atom()
                 auto num = string_to_number(token).value();
                 return LisppObject::create_number(num);
         }
-        else if (token == syntax::types[Type::True]) {
+        else if (token == type::types[Type::True]) {
                 return LisppObject::create_true();
         }
-        else if (token == syntax::types[Type::False]) {
+        else if (token == type::types[Type::False]) {
                 return LisppObject::create_false();
         }
-        else if (token == syntax::types[Type::Nil]) {
+        else if (token == type::types[Type::Nil]) {
                 return LisppObject::create_nil();
         }
         else {
