@@ -19,7 +19,7 @@ static std::unordered_map<Type, std::string> types = {
 
 struct LisppObject {
         Type type = Type::Nil;
-        int number = 0;
+        double number = 0;
         std::string symbol = "";
         std::string string = "";
         std::vector<LisppObject> items;
@@ -39,7 +39,7 @@ struct LisppObject {
                 return exp;
         }
 
-        static LisppObject create_number(int number)
+        static LisppObject create_number(double number)
         {
                 LisppObject exp = {.type = Type::Number, .number = number};
                 return exp;

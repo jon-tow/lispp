@@ -33,7 +33,7 @@ LisppObject eval_ast(const LisppObject& ast, Environment& env)
 
 LisppObject eval_definition(const LisppObject& ast, Environment& env)
 {
-        LisppObject name = syntax::definition_variable(ast);
+        LisppObject name = syntax::definition_name(ast);
         LisppObject value_arg = syntax::definition_value(ast);
         LisppObject value = evaluator::eval(value_arg, env);
         env.set(name.symbol, value);
@@ -42,17 +42,17 @@ LisppObject eval_definition(const LisppObject& ast, Environment& env)
 
 LisppObject eval_assignment(const LisppObject& ast, Environment& env)
 {
-        LisppObject var = syntax::variable(ast);
-        LisppObject update = syntax::variable_update(ast);
-        LisppObject new_value = evaluator::eval(update, env);
-        env.set(var.symbol, new_value);
-        return new_value;
+        LisppObject name = syntax::variable_name(ast);
+        LisppObject update_arg = syntax::variable_update(ast);
+        LisppObject update = evaluator::eval(update_arg, env);
+        env.set(name.symbol, update);
+        return update;
 }
 
 LisppObject eval_local_assignment(const LisppObject& ast, Environment& env)
 {
         Environment local(std::make_shared<Environment>(env));
-	std::vector<LisppObject> vars = syntax::local_variables(ast);
+        std::vector<LisppObject> vars = syntax::local_variables(ast);
         for (auto it = vars.begin(); it != vars.end(); it += 2) {
                 auto name = *it;
                 auto binding = *(it + 1);
@@ -79,7 +79,8 @@ LisppObject eval_function(const LisppObject& ast, Environment& env)
 {
         auto fn = [ast, &env](std::vector<LisppObject> args) {
                 Environment local(std::make_shared<Environment>(env));
-		std::vector<LisppObject> params = syntax::function_parameters(ast);
+                std::vector<LisppObject> params =
+                    syntax::function_parameters(ast);
                 LisppObject body = syntax::function_body(ast);
                 if (args.size() != params.size()) {
                         std::string err =
@@ -137,7 +138,7 @@ LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
         else {
                 LisppObject list = eval_ast(ast, env);
                 LisppObject procedure = syntax::get_operator(list);
-		std::vector<LisppObject> args = syntax::get_operands(list);
+                std::vector<LisppObject> args = syntax::get_operands(list);
                 return evaluator::apply(procedure, args);
         }
 }

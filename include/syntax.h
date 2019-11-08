@@ -26,57 +26,81 @@ static std::unordered_map<KeywordKind, std::string> keywords = {
 
 inline bool out_of_bounds(size_t index, size_t size) { return index >= size; }
 
-/* Definition Selectors */
+// Definition Selectors
 
 inline bool is_definition(const std::string& symbol)
 {
         return symbol == keywords[KeywordKind::definition];
 }
 
-inline type::LisppObject definition_variable(const type::LisppObject& expr)
+inline type::LisppObject definition_name(const type::LisppObject& expr)
 {
-        size_t def_pos = 1;
-        if (out_of_bounds(def_pos, expr.items.size())) {
-                throw ill_form_error("definition");
+        // def_pos: 1
+        // (def <name> <value>)
+        // _^___^______^______
+        //  0   1      2
+        size_t name_pos = 1;
+        if (out_of_bounds(name_pos, expr.items.size())) {
+                throw ill_form_error("missing definition name\n\n"
+                                     "(def <name> <value>)\n"
+                                     "_____^______________");
         }
-        return expr.items.at(def_pos);
+        return expr.items.at(name_pos);
 }
 
 inline type::LisppObject definition_value(const type::LisppObject& expr)
 {
-        size_t def_value = 2;
-        if (out_of_bounds(def_value, expr.items.size())) {
-                throw ill_form_error("definition");
+        // def_pos: 2
+        // (def <name> <value>)
+        // _^___^______^_______
+        //  0   1      2
+        size_t value_pos = 2;
+        if (out_of_bounds(value_pos, expr.items.size())) {
+                throw ill_form_error("missing definition value\n\n"
+                                     "(def <name> <value>)\n"
+                                     "____________^_______");
         }
-        return expr.items.at(def_value);
+        return expr.items.at(value_pos);
 }
 
-/* Assignment Selectors */
+// Assignment Selectors
 
 inline bool is_assigment(const std::string& symbol)
 {
         return symbol == keywords[KeywordKind::assignment];
 }
 
-inline type::LisppObject variable(const type::LisppObject& expr)
+inline type::LisppObject variable_name(const type::LisppObject& expr)
 {
-        size_t var_pos = 1;
-        if (out_of_bounds(var_pos, expr.items.size())) {
-                throw ill_form_error("assignment");
+        // name_pos: 1
+        // (set <name> <update>)
+        // _^___^______^________
+        //  0   1      2
+        size_t name_pos = 1;
+        if (out_of_bounds(name_pos, expr.items.size())) {
+                throw ill_form_error("missing variable name\n\n"
+                                     "(set <name> <update>)\n"
+                                     "_____^_______________");
         }
-        return expr.items.at(var_pos);
+        return expr.items.at(name_pos);
 }
 
 inline type::LisppObject variable_update(const type::LisppObject& expr)
 {
+        // update_pos: 2
+        // (set <name> <update>)
+        // _^___^______^________
+        //  0   1      2
         size_t update_pos = 2;
         if (out_of_bounds(update_pos, expr.items.size())) {
-                throw ill_form_error("assignment");
+                throw ill_form_error("missing variable update\n\n"
+                                     "(set <name> <update>)\n"
+                                     "____________^________");
         }
         return expr.items.at(update_pos);
 }
 
-/* Local Assignment Selectors */
+// Local Assignment Selectors
 
 inline bool is_local_assignment(const std::string& symbol)
 {
@@ -86,24 +110,36 @@ inline bool is_local_assignment(const std::string& symbol)
 inline std::vector<type::LisppObject>
 local_variables(const type::LisppObject& expr)
 {
-        size_t bind_pos = 1;
-        if (out_of_bounds(bind_pos, expr.items.size())) {
-                throw ill_form_error("local assignment");
+        // vars_pos: 1
+        // (let (<name> <value>) <body>)
+        // _^___^________________^______
+        //  0   1                2
+        size_t vars_pos = 1;
+        if (out_of_bounds(vars_pos, expr.items.size())) {
+                throw ill_form_error("missing local names.\n\n"
+                                     "(let (<name> <value>) <body>)\n"
+                                     "_____^_______________________");
         }
-        auto bindings = expr.items.at(bind_pos);
-        return bindings.items;
+        auto vars = expr.items.at(vars_pos);
+        return vars.items;
 }
 
 inline type::LisppObject local_body(const type::LisppObject& expr)
 {
+        // body_pos: 2
+        // (let (<name> <value>) <body>)
+        // _^___^________________^______
+        //  0   1                2
         size_t body_pos = 2;
         if (out_of_bounds(body_pos, expr.items.size())) {
-                throw ill_form_error("local assignment");
+                throw ill_form_error("missing local assignment body.\n\n"
+                                     "(let (<name> <value>) <body>)\n"
+                                     "______________________^______");
         }
         return expr.items.at(body_pos);
 }
 
-/* Function Selectors */
+// Function Selectors
 
 inline bool is_function(const std::string& symbol)
 {
@@ -132,9 +168,9 @@ inline type::LisppObject function_body(const type::LisppObject& expr)
 
 inline type::LisppObject get_operator(const type::LisppObject& expr)
 {
-        if (expr.items.empty()) {
-                throw ill_form_error("function");
-        }
+        // if (expr.items.empty()) {
+        //         throw ill_form_error("function");
+        // }
         auto op = expr.items.front();
         if (!op.is_function()) {
                 throw ill_form_error("object is not callable");
@@ -145,15 +181,15 @@ inline type::LisppObject get_operator(const type::LisppObject& expr)
 inline std::vector<type::LisppObject>
 get_operands(const type::LisppObject& expr)
 {
-        if (expr.items.size() < 2) {
-                throw ill_form_error("function");
-        }
+        // if (expr.items.size() < 2) {
+        //         throw ill_form_error("function");
+        // }
         std::vector<type::LisppObject> l = expr.items;
         std::vector<type::LisppObject> operands(l.begin() + 1, l.end());
         return operands;
 }
 
-/* If Selectors */
+// If Selectors
 
 inline bool is_if(const std::string& symbol)
 {
@@ -162,20 +198,34 @@ inline bool is_if(const std::string& symbol)
 
 inline type::LisppObject if_predicate(const type::LisppObject& expr)
 {
+        // pred_pos: 1
+        // (if (<predicate>) <consequent> <?-alternative>)
+        // _^___^____________^____________^_____________
+        //  0   1            2            3
         size_t pred_pos = 1;
         if (out_of_bounds(pred_pos, expr.items.size())) {
-                throw ill_form_error("local assignment");
+                throw ill_form_error(
+                    "missing predicate.\n\n"
+                    "(if (<predicate>) <consequent> <?-alternative>)\n"
+                    "_____^_________________________________________");
         }
         return expr.items.at(pred_pos);
 }
 
 inline type::LisppObject if_consequent(const type::LisppObject& expr)
 {
-        size_t cons_pos = 2;
-        if (out_of_bounds(cons_pos, expr.items.size())) {
-                throw ill_form_error("local assignment");
+        // conseq_pos: 2
+        // (if (<predicate>) <consequent> <?-alternative>)
+        // _^___^____________^____________^______________
+        //  0   1            2            3
+        size_t conseq_pos = 2;
+        if (out_of_bounds(conseq_pos, expr.items.size())) {
+                throw ill_form_error(
+                    "missing consequent.\n\n"
+                    "(if (<predicate>) <consequent> <?-alternative>)\n"
+                    "__________________^____________________________");
         }
-        return expr.items.at(cons_pos);
+        return expr.items.at(conseq_pos);
 }
 
 inline type::LisppObject if_alternative(const type::LisppObject& expr)

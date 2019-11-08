@@ -8,6 +8,7 @@ std::string ast_to_string(const LisppObject& ast)
 {
         std::string result;
         std::string padding = " ";
+
         switch (ast.type) {
         case Type::String:
                 result = ast.string;

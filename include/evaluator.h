@@ -1,6 +1,7 @@
 #ifndef EVALUATOR_H
 #define EVALUATOR_H
 
+#include <iostream>
 #include "environment.h"
 #include "exception.h"
 #include "syntax.h"

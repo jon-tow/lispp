@@ -1,6 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include <cmath>
 #include <functional>
 #include <string>
 #include <unordered_map>
@@ -15,19 +16,19 @@ using CoreFunction =
 
 std::unordered_map<std::string, CoreFunction> build_core();
 
-/* Arithmetic */
+// Arithmetic
 type::LisppObject add(std::vector<type::LisppObject> args);
 type::LisppObject sub(std::vector<type::LisppObject> args);
 type::LisppObject mul(std::vector<type::LisppObject> args);
 type::LisppObject div(std::vector<type::LisppObject> args);
 
-/* List Processing */
+// List Processing
 type::LisppObject list(std::vector<type::LisppObject> args);
 type::LisppObject is_list(std::vector<type::LisppObject> args);
 type::LisppObject is_empty(std::vector<type::LisppObject> args);
 type::LisppObject count(std::vector<type::LisppObject> args);
 
-/* Logic */
+// Logic
 type::LisppObject equal(std::vector<type::LisppObject> args);
 type::LisppObject less(std::vector<type::LisppObject> args);
 type::LisppObject less_eq(std::vector<type::LisppObject> args);

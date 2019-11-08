@@ -66,7 +66,7 @@ std::unordered_map<std::string, core::CoreFunction> core::build_core()
         return ns;
 }
 
-/* Arithmetic */
+// Arithmetic
 
 LisppObject core::add(std::vector<LisppObject> args)
 {
@@ -122,10 +122,10 @@ LisppObject core::div(std::vector<LisppObject> args)
         return LisppObject::create_number(quotient);
 }
 
-/* List Processing */
+// List Processing
 
 LisppObject core::list(std::vector<LisppObject> args)
-{                
+{
         return LisppObject::create_list(args);
 }
 
@@ -147,10 +147,10 @@ LisppObject core::count(std::vector<LisppObject> args)
 {
         auto list = args.front();
         auto count = list.items.size();
-        return LisppObject::create_number(count); // (size_t -> int) cast
+        return LisppObject::create_number(count); // (size_t -> double) cast
 }
 
-/* Logic */
+// Logic
 
 LisppObject core::less(std::vector<LisppObject> args)
 {
@@ -183,7 +183,7 @@ LisppObject core::greater(std::vector<LisppObject> args)
 }
 
 LisppObject core::greater_eq(std::vector<LisppObject> args)
-{	
+{
         for (auto it = args.begin(); it != args.end() - 1; it++) {
                 if (it->number < (it + 1)->number) {
                         return LisppObject::create_false();
@@ -200,5 +200,5 @@ LisppObject core::equal(std::vector<LisppObject> args)
                         return LisppObject::create_false();
                 }
         }
-        return LisppObject::create_true();	
+        return LisppObject::create_true();
 }
