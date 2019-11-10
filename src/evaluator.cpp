@@ -70,9 +70,10 @@ LisppObject eval_if(const LisppObject& ast, Environment& env)
         if (predicate_value.is_true()) {
                 LisppObject consequent = syntax::if_consequent(ast);
                 return evaluator::eval(consequent, env);
-        } else {
-          LisppObject alternative = syntax::if_alternative(ast);
-          return evaluator::eval(alternative, env);
+        }
+        else {
+                LisppObject alternative = syntax::if_alternative(ast);
+                return evaluator::eval(alternative, env);
         }
 }
 
@@ -83,12 +84,8 @@ LisppObject eval_function(const LisppObject& ast, Environment& env)
         auto fn = [params, body, &env](std::vector<LisppObject> args) {
                 Environment local(std::make_shared<Environment>(env));
                 if (args.size() != params.size()) {
-                        std::string err =
-                            "\n;The procedure has been called with " +
-                            std::to_string(args.size()) +
-                            " arguments; it requires " +
-                            std::to_string(params.size()) + ".\n";
-                        throw std::invalid_argument(err);
+                        throw invalid_arg_size("The procedure", args.size(),
+                                               params.size());
                 }
                 for (size_t i = 0; i < params.size(); i++) {
                         auto param = params.at(i);
