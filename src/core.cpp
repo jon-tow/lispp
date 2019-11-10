@@ -25,6 +25,7 @@ void set_list_processing(
 
 void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
 {
+        ns["not"] = &core::_not;
         ns["="] = &core::equal;
         ns["<"] = &core::less;
         ns["<="] = &core::less_eq;
@@ -70,6 +71,7 @@ std::unordered_map<std::string, core::CoreFunction> core::build_core()
 
 // Arithmetic
 
+/// (+ <atom-1> ... <atom-n) -> LisppObject.Number
 LisppObject core::add(std::vector<LisppObject> args)
 {
         auto sum = 0;
@@ -79,6 +81,7 @@ LisppObject core::add(std::vector<LisppObject> args)
         return LisppObject::create_number(sum);
 }
 
+/// (- <atom-1> ... <atom-n) -> LisppObject.Number
 LisppObject core::sub(std::vector<LisppObject> args)
 {
         if (args.empty()) {
@@ -95,6 +98,7 @@ LisppObject core::sub(std::vector<LisppObject> args)
         return LisppObject::create_number(diff);
 }
 
+/// (* <atom-1> ... <atom-n) -> LisppObject.Number
 LisppObject core::mul(std::vector<LisppObject> args)
 {
         auto prod = 1;
@@ -104,6 +108,7 @@ LisppObject core::mul(std::vector<LisppObject> args)
         return LisppObject::create_number(prod);
 }
 
+/// (/ <atom-1> ... <atom-n) -> LisppObject.Number
 LisppObject core::div(std::vector<LisppObject> args)
 {
         if (args.empty()) {
@@ -126,34 +131,52 @@ LisppObject core::div(std::vector<LisppObject> args)
 
 // List Processing
 
+// (list <atom-1 | list-1> ... <atom-n | list-n ) -> LisppObject.List
 LisppObject core::list(std::vector<LisppObject> args)
 {
         return LisppObject::create_list(args);
 }
 
+/// (list? <list>) -> LisppObject.True | LisppObject.False
 LisppObject core::is_list(std::vector<LisppObject> args)
 {
+        if (args.size() != 1) {
+                throw invalid_arg_size("(list? <list>)", 1, args.size());
+        }
         auto list = args.front();
         return list.is_list() ? LisppObject::create_true()
                               : LisppObject::create_false();
 }
 
+/// (empty? <list>) -> LisppObject.True | LisppObject.False
 LisppObject core::is_empty(std::vector<LisppObject> args)
 {
+        if (args.size() != 1) {
+                throw invalid_arg_size("(empty? <list>)", 1, args.size());
+        }
         auto list = args.front();
         return list.items.empty() ? LisppObject::create_true()
                                   : LisppObject::create_false();
 }
 
+/// (count <list>) -> LisppObject.Number
 LisppObject core::count(std::vector<LisppObject> args)
 {
+        if (args.size() != 1) {
+                throw invalid_arg_size("(count <list>)", 1, args.size());
+        }
         auto list = args.front();
         auto count = list.items.size();
         return LisppObject::create_number(count); // (size_t -> double) cast
 }
 
+/// (first <list>) -> LisppObject
 LisppObject core::first(std::vector<LisppObject> args)
 {
+        if (args.size() != 1) {
+                throw invalid_arg_size("(first <list>)", 1, args.size());
+        }
+
         auto list = args.front();
         if (list.items.empty()) {
                 throw std::runtime_error(
@@ -163,8 +186,13 @@ LisppObject core::first(std::vector<LisppObject> args)
         return list.items.front();
 }
 
+/// (rest <list>) -> (list LisppObject)
 LisppObject core::rest(std::vector<LisppObject> args)
 {
+        if (args.size() != 1) {
+                throw invalid_arg_size("(rest <list>)", 1, args.size());
+        }
+
         auto list = args.front();
         if (list.items.empty()) {
                 throw std::runtime_error(
@@ -180,6 +208,17 @@ LisppObject core::rest(std::vector<LisppObject> args)
 
 // Logic
 
+/// (not <any>) -> LisppObject.True | LisppObject.False
+LisppObject core::_not(std::vector<LisppObject> args)
+{
+        if (args.size() != 1) {
+                throw invalid_arg_size("(not <list>)", 1, args.size());
+        }
+        return (args.front().type == Type::False) ? LisppObject::create_true()
+                                                 : LisppObject::create_false();
+}
+
+/// (< <atom-1> ... <atom-n) -> LisppObject.True | LisppObject.False
 LisppObject core::less(std::vector<LisppObject> args)
 {
         for (auto it = args.begin(); it != args.end() - 1; it++) {
@@ -190,6 +229,7 @@ LisppObject core::less(std::vector<LisppObject> args)
         return LisppObject::create_true();
 }
 
+/// (<= <atom-1> ... <atom-n>) -> LisppObject.True | LisppObject.False
 LisppObject core::less_eq(std::vector<LisppObject> args)
 {
         for (auto it = args.begin(); it != args.end() - 1; it++) {
@@ -200,6 +240,7 @@ LisppObject core::less_eq(std::vector<LisppObject> args)
         return LisppObject::create_true();
 }
 
+/// (> <atom-1> ... <atom-n>) -> LisppObject.True | LisppObject.False
 LisppObject core::greater(std::vector<LisppObject> args)
 {
         for (auto it = args.begin(); it != args.end() - 1; it++) {
@@ -210,6 +251,7 @@ LisppObject core::greater(std::vector<LisppObject> args)
         return LisppObject::create_true();
 }
 
+/// (>= <atom-1> ... <atom-n>) -> LisppObject.True | LisppObject.False
 LisppObject core::greater_eq(std::vector<LisppObject> args)
 {
         for (auto it = args.begin(); it != args.end() - 1; it++) {
@@ -220,6 +262,7 @@ LisppObject core::greater_eq(std::vector<LisppObject> args)
         return LisppObject::create_true();
 }
 
+/// (= <atom-1> ... <atom-n>) -> LisppObject.True | LisppObject.False
 LisppObject core::equal(std::vector<LisppObject> args)
 {
         for (auto it = args.begin(); it != args.end() - 1; it++) {

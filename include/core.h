@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "exception.h"
 #include "type.h"
 
 namespace core {
@@ -27,10 +28,12 @@ type::LisppObject list(std::vector<type::LisppObject> args);
 type::LisppObject is_list(std::vector<type::LisppObject> args);
 type::LisppObject is_empty(std::vector<type::LisppObject> args);
 type::LisppObject count(std::vector<type::LisppObject> args);
-type::LisppObject first(std::vector < type::LisppObject> args);
+type::LisppObject first(std::vector<type::LisppObject> args);
 type::LisppObject rest(std::vector<type::LisppObject> args);
 
 // Logic
+type::LisppObject
+_not(std::vector<type::LisppObject> args); // `_not` to avoid C++ keyword clash
 type::LisppObject equal(std::vector<type::LisppObject> args);
 type::LisppObject less(std::vector<type::LisppObject> args);
 type::LisppObject less_eq(std::vector<type::LisppObject> args);
