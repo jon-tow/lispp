@@ -212,7 +212,7 @@ LisppObject core::rest(std::vector<LisppObject> args)
 LisppObject core::_not(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(not <list>)", 1, args.size());
+                throw invalid_arg_size("(not <list>)", args.size(), 1);
         }
         return (args.front().type == Type::False) ? LisppObject::create_true()
                                                  : LisppObject::create_false();
