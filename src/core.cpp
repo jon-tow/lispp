@@ -256,7 +256,7 @@ LisppObject core::is_false(std::vector<LisppObject> args)
 LisppObject core::is_symbol(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(nil? <any>)", 1, args.size());
+                throw invalid_arg_size("(symbol? <any>)", 1, args.size());
         }
         auto any = args.front();
         return any.is_symbol() ? LisppObject::create_true()
@@ -267,7 +267,7 @@ LisppObject core::is_symbol(std::vector<LisppObject> args)
 LisppObject core::is_number(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(nil? <any>)", 1, args.size());
+                throw invalid_arg_size("(number? <any>)", 1, args.size());
         }
         auto any = args.front();
         return any.is_number() ? LisppObject::create_true()
