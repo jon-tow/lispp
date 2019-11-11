@@ -36,6 +36,7 @@ type::LisppObject is_nil(std::vector<type::LisppObject> args);
 type::LisppObject is_true(std::vector<type::LisppObject> args);
 type::LisppObject is_false(std::vector<type::LisppObject> args);
 type::LisppObject is_symbol(std::vector<type::LisppObject> args);
+type::LisppObject is_number(std::vector<type::LisppObject> args);
 
 // Logic
 type::LisppObject

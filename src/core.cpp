@@ -30,6 +30,7 @@ void set_type_predicates(
         ns["true?"] = &core::is_true;
         ns["false?"] = &core::is_false;
         ns["symbol?"] = &core::is_symbol;
+        ns["number?"] = &core::is_number;
 }
 
 void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
@@ -259,6 +260,17 @@ LisppObject core::is_symbol(std::vector<LisppObject> args)
         }
         auto any = args.front();
         return any.is_symbol() ? LisppObject::create_true()
+                               : LisppObject::create_false();
+}
+
+/// (number? <any>) -> LisppObject.True | LisppObject.False
+LisppObject core::is_number(std::vector<LisppObject> args)
+{
+        if (args.size() != 1) {
+                throw invalid_arg_size("(nil? <any>)", 1, args.size());
+        }
+        auto any = args.front();
+        return any.is_number() ? LisppObject::create_true()
                                : LisppObject::create_false();
 }
 
