@@ -32,6 +32,7 @@ struct LisppObject {
         bool is_true() const { return type == Type::True; }
         bool is_false() const { return type == Type::False; }
         bool is_function() const { return type == Type::Function; }
+        bool is_nil() const { return type == Type::Nil; }
 
         static LisppObject create_nil()
         {

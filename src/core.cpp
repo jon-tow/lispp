@@ -16,11 +16,20 @@ void set_list_processing(
     std::unordered_map<std::string, core::CoreFunction>& ns)
 {
         ns["list"] = &core::list;
-        ns["list?"] = &core::is_list;
         ns["empty?"] = &core::is_empty;
         ns["count"] = &core::count;
         ns["first"] = &core::first;
         ns["rest"] = &core::rest;
+}
+
+void set_type_predicates(
+    std::unordered_map<std::string, core::CoreFunction>& ns)
+{
+        ns["list?"] = &core::is_list;
+        ns["nil?"] = &core::is_nil;
+        ns["true?"] = &core::is_true;
+        ns["false?"] = &core::is_false;
+        ns["symbol?"] = &core::is_symbol;
 }
 
 void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
@@ -65,6 +74,7 @@ std::unordered_map<std::string, core::CoreFunction> core::build_core()
         std::unordered_map<std::string, core::CoreFunction> ns;
         set_arithmetic(ns);
         set_list_processing(ns);
+        set_type_predicates(ns);
         set_logic(ns);
         return ns;
 }
@@ -137,17 +147,6 @@ LisppObject core::list(std::vector<LisppObject> args)
         return LisppObject::create_list(args);
 }
 
-/// (list? <list>) -> LisppObject.True | LisppObject.False
-LisppObject core::is_list(std::vector<LisppObject> args)
-{
-        if (args.size() != 1) {
-                throw invalid_arg_size("(list? <list>)", 1, args.size());
-        }
-        auto list = args.front();
-        return list.is_list() ? LisppObject::create_true()
-                              : LisppObject::create_false();
-}
-
 /// (empty? <list>) -> LisppObject.True | LisppObject.False
 LisppObject core::is_empty(std::vector<LisppObject> args)
 {
@@ -206,6 +205,63 @@ LisppObject core::rest(std::vector<LisppObject> args)
         return LisppObject::create_list(rest);
 }
 
+// Type Predicates
+
+/// (list? <list>) -> LisppObject.True | LisppObject.False
+LisppObject core::is_list(std::vector<LisppObject> args)
+{
+        if (args.size() != 1) {
+                throw invalid_arg_size("(list? <list>)", 1, args.size());
+        }
+        auto list = args.front();
+        return list.is_list() ? LisppObject::create_true()
+                              : LisppObject::create_false();
+}
+
+/// (nil? <any>) -> LisppObject.True | LisppObject.False
+LisppObject core::is_nil(std::vector<LisppObject> args)
+{
+        if (args.size() != 1) {
+                throw invalid_arg_size("(nil? <any>)", 1, args.size());
+        }
+        auto any = args.front();
+        return any.is_nil() ? LisppObject::create_true()
+                            : LisppObject::create_false();
+}
+
+/// (true? <any>) -> LisppObject.True | LisppObject.False
+LisppObject core::is_true(std::vector<LisppObject> args)
+{
+        if (args.size() != 1) {
+                throw invalid_arg_size("(true? <any>)", 1, args.size());
+        }
+        auto any = args.front();
+        return any.is_true() ? LisppObject::create_true()
+                             : LisppObject::create_false();
+}
+
+/// (false? <any>) -> LisppObject.True | LisppObject.False
+LisppObject core::is_false(std::vector<LisppObject> args)
+{
+        if (args.size() != 1) {
+                throw invalid_arg_size("(false? <any>)", 1, args.size());
+        }
+        auto any = args.front();
+        return any.is_false() ? LisppObject::create_true()
+                              : LisppObject::create_false();
+}
+
+/// (symbol? <any>) -> LisppObject.True | LisppObject.False
+LisppObject core::is_symbol(std::vector<LisppObject> args)
+{
+        if (args.size() != 1) {
+                throw invalid_arg_size("(nil? <any>)", 1, args.size());
+        }
+        auto any = args.front();
+        return any.is_symbol() ? LisppObject::create_true()
+                               : LisppObject::create_false();
+}
+
 // Logic
 
 /// (not <any>) -> LisppObject.True | LisppObject.False
@@ -215,7 +271,7 @@ LisppObject core::_not(std::vector<LisppObject> args)
                 throw invalid_arg_size("(not <list>)", args.size(), 1);
         }
         return (args.front().type == Type::False) ? LisppObject::create_true()
-                                                 : LisppObject::create_false();
+                                                  : LisppObject::create_false();
 }
 
 /// (< <atom-1> ... <atom-n) -> LisppObject.True | LisppObject.False

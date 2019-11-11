@@ -25,11 +25,17 @@ type::LisppObject div(std::vector<type::LisppObject> args);
 
 // List Processing
 type::LisppObject list(std::vector<type::LisppObject> args);
-type::LisppObject is_list(std::vector<type::LisppObject> args);
 type::LisppObject is_empty(std::vector<type::LisppObject> args);
 type::LisppObject count(std::vector<type::LisppObject> args);
 type::LisppObject first(std::vector<type::LisppObject> args);
 type::LisppObject rest(std::vector<type::LisppObject> args);
+
+// Type Predicates
+type::LisppObject is_list(std::vector<type::LisppObject> args);
+type::LisppObject is_nil(std::vector<type::LisppObject> args);
+type::LisppObject is_true(std::vector<type::LisppObject> args);
+type::LisppObject is_false(std::vector<type::LisppObject> args);
+type::LisppObject is_symbol(std::vector<type::LisppObject> args);
 
 // Logic
 type::LisppObject
