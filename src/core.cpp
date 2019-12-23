@@ -87,6 +87,7 @@ std::unordered_map<std::string, core::CoreFunction> core::build_core()
 
 // I/O
 
+/// (print <any>) -> LisppObject.Nil
 LisppObject core::print(std::vector<LisppObject> args) {
         if (args.size() != 1) {
                 throw invalid_arg_size("(print <any>)", 1, args.size());
@@ -241,8 +242,9 @@ LisppObject core::is_nil(std::vector<LisppObject> args)
                 throw invalid_arg_size("(nil? <any>)", 1, args.size());
         }
         auto any = args.front();
-        return any.is_nil() ? LisppObject::create_true()
-                            : LisppObject::create_false();
+        return any.is_nil() || (any.is_list() && any.items.empty())
+                   ? LisppObject::create_true()
+                   : LisppObject::create_false();
 }
 
 /// (true? <any>) -> LisppObject.True | LisppObject.False
