@@ -4,6 +4,8 @@ using namespace type;
 
 namespace {
 
+bool is_list_delimited(const std::string& token) { return token == "("; }
+
 bool is_string_delimited(const std::string& token)
 {
         return token.at(0) == '"';
@@ -75,7 +77,7 @@ std::vector<std::string> Reader::tokenize(const std::string& text)
 LisppObject Reader::read_form()
 {
         std::string token = peek().value_or("");
-        if (token == "(") {
+        if (is_list_delimited(token)) {
                 return read_list();
         }
         else if (is_string_delimited(token)) {
@@ -89,7 +91,7 @@ LisppObject Reader::read_form()
 LisppObject Reader::read_list()
 {
         auto list = LisppObject::create_list({});
-        while (next().has_value() && peek().value_or("") != ")") {
+        while (next().has_value() && peek().value_or(")") != ")") {
                 auto form = read_form();
                 list.items.push_back(form);
         }
