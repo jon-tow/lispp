@@ -4,6 +4,10 @@ using namespace type;
 
 namespace {
 
+void set_io(std::unordered_map<std::string, core::CoreFunction>& ns) {
+        ns["print"] = &core::print;
+}
+
 void set_arithmetic(std::unordered_map<std::string, core::CoreFunction>& ns)
 {
         ns["+"] = &core::add;
@@ -73,11 +77,22 @@ LisppObject equal_helper(const LisppObject& l1, const LisppObject& l2)
 std::unordered_map<std::string, core::CoreFunction> core::build_core()
 {
         std::unordered_map<std::string, core::CoreFunction> ns;
+        set_io(ns);
         set_arithmetic(ns);
         set_list_processing(ns);
         set_type_predicates(ns);
         set_logic(ns);
         return ns;
+}
+
+// I/O
+
+LisppObject core::print(std::vector<LisppObject> args) {
+        if (args.size() != 1) {
+                throw invalid_arg_size("(print <any>)", 1, args.size());
+        }
+        std::cout << printer::print(args.at(0));
+        return LisppObject::create_nil();
 }
 
 // Arithmetic

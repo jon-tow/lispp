@@ -3,10 +3,12 @@
 
 #include <cmath>
 #include <functional>
+#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
+#include "printer.h"
 #include "exception.h"
 #include "type.h"
 
@@ -16,6 +18,9 @@ using CoreFunction =
     std::function<type::LisppObject(std::vector<type::LisppObject>)>;
 
 std::unordered_map<std::string, CoreFunction> build_core();
+
+// I/O
+type::LisppObject print(std::vector<type::LisppObject> args);
 
 // Arithmetic
 type::LisppObject add(std::vector<type::LisppObject> args);
