@@ -37,11 +37,9 @@ std::string replace(const std::string& text, const std::string& old,
 
 std::string clean(const std::string& text)
 {
-        std::string pad(text);
-        pad = replace(pad, "(", " ( ");
-        pad = replace(pad, ")", " ) ");
-        pad.erase(std::remove(pad.begin(), pad.end(), ','), pad.end());
-        return pad;
+        std::string clean(text);
+        clean.erase(std::remove(clean.begin(), clean.end(), ','), clean.end());
+        return clean;
 }
 
 std::vector<std::string> split(const std::string& text,
@@ -69,8 +67,8 @@ LisppObject Reader::read(const std::string& program)
 
 std::vector<std::string> Reader::tokenize(const std::string& text)
 {
-        std::string cleaned = clean(text);
-        auto tokens = split(cleaned, syntax::grammar);
+        std::string cleansed_text = clean(text);
+        auto tokens = split(cleansed_text, syntax::grammar);
         return tokens;
 }
 
