@@ -10,6 +10,10 @@
 
 namespace syntax {
 
+// Excuse my poor regex-ing...
+static inline const std::string grammar =
+    "(list|def|if|let|set|fn)|([-+*/^%~=])|\"(.)*\"|(\\d)+|\\w+|\\(|\\)";
+
 enum class KeywordKind {
         definition,
         assignment,

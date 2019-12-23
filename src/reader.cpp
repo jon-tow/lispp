@@ -4,11 +4,16 @@ using namespace type;
 
 namespace {
 
-std::optional<int> string_to_number(const std::string& text)
+bool is_string_delimited(const std::string& token)
+{
+        return token.at(0) == '"';
+}
+
+std::optional<int> tokens_to_number(const std::string& token)
 {
         auto number = 0;
-        auto data = text.data();
-        auto sz = text.size();
+        auto data = token.data();
+        auto sz = token.size();
         auto [p, ec] = std::from_chars(data, data + sz, number);
         if (ec != std::errc()) {
                 return std::nullopt;
@@ -37,12 +42,16 @@ std::string clean(const std::string& text)
         return pad;
 }
 
-std::vector<std::string> split(const std::string& text)
+std::vector<std::string> split(const std::string& text,
+                               const std::string regex_str)
 {
-        std::istringstream buff(text);
-        std::vector<std::string> split(
-            (std::istream_iterator<std::string>(buff)),
-            std::istream_iterator<std::string>());
+        std::vector<std::string> split;
+        std::regex regex(regex_str);
+        std::sregex_token_iterator iter(text.begin(), text.end(), regex);
+        std::sregex_token_iterator end;
+        for (; iter != end; iter++) {
+                split.push_back(*iter);
+        }
         return split;
 }
 
@@ -52,13 +61,14 @@ LisppObject Reader::read(const std::string& program)
 {
         auto tokens = tokenize(program);
         auto reader = Reader(tokens);
-        return reader.read_form();
+        auto form = reader.read_form();
+        return form;
 }
 
 std::vector<std::string> Reader::tokenize(const std::string& text)
 {
         std::string cleaned = clean(text);
-        auto tokens = split(cleaned);
+        auto tokens = split(cleaned, syntax::grammar);
         return tokens;
 }
 
@@ -68,7 +78,12 @@ LisppObject Reader::read_form()
         if (token == "(") {
                 return read_list();
         }
-        return read_atom();
+        else if (is_string_delimited(token)) {
+                return read_string();
+        }
+        else {
+                return read_atom();
+        }
 }
 
 LisppObject Reader::read_list()
@@ -87,11 +102,27 @@ LisppObject Reader::read_list()
         return list;
 }
 
+LisppObject Reader::read_string()
+{
+        std::string str = peek().value_or("");
+        while (peek().value().back() != '"' && next().has_value()) {
+                str += " " + peek().value();
+        }
+        if (str.back() != '"') {
+                /* Note: Remove after allowing <enter>
+                 *       presses until user balances string.
+                 */
+                throw std::runtime_error("\n;Unbalanced string.\n");
+        }
+        str = str.substr(1, str.length() - 2);
+        return LisppObject::create_string(str);
+}
+
 LisppObject Reader::read_atom()
 {
         std::string token = peek().value_or("");
-        if (string_to_number(token) != std::nullopt) {
-                auto num = string_to_number(token).value();
+        if (tokens_to_number(token) != std::nullopt) {
+                auto num = tokens_to_number(token).value();
                 return LisppObject::create_number(num);
         }
         else if (token == type::types[Type::True]) {

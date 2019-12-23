@@ -26,6 +26,7 @@ class Reader {
 
         type::LisppObject read_form();
         type::LisppObject read_list();
+        type::LisppObject read_string();
         type::LisppObject read_atom();
 
       private:
