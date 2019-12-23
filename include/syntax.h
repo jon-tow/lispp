@@ -12,7 +12,7 @@ namespace syntax {
 
 // Excuse my poor regex-ing...
 static inline const std::string grammar =
-    "(list|def|if|let|set|fn)|([-+*/^%~=])|\"(.)*\"|(\\d)+|\\w+|\\(|\\)";
+    "(list|def|if|let|set|fn)|([-+*/^%~=])|\"(.)*\"|(\\d)+|(\\w+\\?*)|\\(|\\)";
 
 // Keyword Syntax
 enum class KeywordKind {
