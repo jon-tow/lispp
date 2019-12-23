@@ -12,9 +12,10 @@ namespace syntax {
 
 // Excuse my poor regex-ing...
 static inline const std::string grammar =
-    "(list|def|if|let|set|fn)|([-+*/^%~=])|\"(.)*\"|(\\d)+|(\\w+\\?*)|\\(|\\)";
+    "(<=|>=|<|>|[-+*/^%~=])|\"(.)*\"|(\\d)+|(\\w+\\?*)|\\(|\\)";
 
 // Keyword Syntax
+
 enum class KeywordKind {
         definition,
         assignment,
@@ -30,6 +31,7 @@ static std::unordered_map<KeywordKind, std::string> keywords = {
 };
 
 // Helper Function
+
 inline bool out_of_bounds(size_t index, size_t size) { return index >= size; }
 
 // Definition Selectors
