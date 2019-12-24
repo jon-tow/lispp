@@ -83,15 +83,14 @@ LisppObject eval_function(const LisppObject& ast, Environment& env)
         LisppObject body = syntax::function_body(ast);
         auto fn = [params, body, &env](std::vector<LisppObject> args) {
                 Environment local(std::make_shared<Environment>(env));
-                if (args.size() != params.size()) {
+                 if (args.size() != params.size()) {
                         throw invalid_arg_size("The procedure", args.size(),
                                                params.size());
                 }
                 for (size_t i = 0; i < params.size(); i++) {
                         auto param = params.at(i);
                         auto arg = args.at(i);
-                        auto value = evaluator::eval(arg, local);
-                        local.set(param.symbol, value);
+                        local.set(param.symbol, arg);
                 }
                 return evaluator::eval(body, local);
         };
@@ -143,5 +142,6 @@ LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
 LisppObject evaluator::apply(const LisppObject& procedure,
                              const std::vector<LisppObject>& arguments)
 {
-        return procedure.lambda(arguments);
+        auto result = procedure.lambda(arguments);
+        return result;
 }
