@@ -242,9 +242,8 @@ LisppObject core::is_nil(std::vector<LisppObject> args)
                 throw invalid_arg_size("(nil? <any>)", 1, args.size());
         }
         auto any = args.front();
-        return any.is_nil() || (any.is_list() && any.items.empty())
-                   ? LisppObject::create_true()
-                   : LisppObject::create_false();
+        return any.is_nil() ? LisppObject::create_true()
+                            : LisppObject::create_false();
 }
 
 /// (true? <any>) -> LisppObject.True | LisppObject.False
