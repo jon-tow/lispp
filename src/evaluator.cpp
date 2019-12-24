@@ -79,18 +79,19 @@ LisppObject eval_if(const LisppObject& ast, Environment& env)
 
 LisppObject eval_function(const LisppObject& ast, Environment& env)
 {
-        std::vector<LisppObject> params = syntax::function_parameters(ast);
+        std::vector<LisppObject> parameters = syntax::function_parameters(ast);
         LisppObject body = syntax::function_body(ast);
-        auto fn = [params, body, &env](std::vector<LisppObject> args) {
+        auto fn = [parameters, body, &env](std::vector<LisppObject> arguments) {
                 Environment local(std::make_shared<Environment>(env));
-                 if (args.size() != params.size()) {
-                        throw invalid_arg_size("The procedure", args.size(),
-                                               params.size());
+                if (arguments.size() != parameters.size()) {
+                        throw invalid_arg_size("The procedure",
+                                               arguments.size(),
+                                               parameters.size());
                 }
-                for (size_t i = 0; i < params.size(); i++) {
-                        auto param = params.at(i);
-                        auto arg = args.at(i);
-                        local.set(param.symbol, arg);
+                for (size_t i = 0; i < parameters.size(); i++) {
+                        auto parameter = parameters.at(i);
+                        auto argument = arguments.at(i);
+                        local.set(parameter.symbol, argument);
                 }
                 return evaluator::eval(body, local);
         };
@@ -133,15 +134,16 @@ LisppObject evaluator::eval(const LisppObject& ast, Environment& env)
         }
         else {
                 LisppObject ast_value = eval_ast(ast, env);
-                LisppObject op = syntax::apply_operator(ast_value);
-                std::vector<LisppObject> operands = syntax::apply_operands(ast_value);
-                return evaluator::apply(op, operands);
+                LisppObject function = syntax::apply_function(ast_value);
+                std::vector<LisppObject> arguments =
+                    syntax::apply_arguments(ast_value);
+                return evaluator::apply(function, arguments);
         }
 }
 
-LisppObject evaluator::apply(const LisppObject& procedure,
+LisppObject evaluator::apply(const LisppObject& function,
                              const std::vector<LisppObject>& arguments)
 {
-        auto result = procedure.lambda(arguments);
+        auto result = function.lambda(arguments);
         return result;
 }
