@@ -14,7 +14,11 @@ static std::unordered_map<Type, std::string> types = {
     {Type::Nil, "nil"},
     {Type::True, "true"},
     {Type::False, "false"},
+    {Type::Number, "number"},
+    {Type::String, "string"},
     {Type::List, "list"},
+    {Type::Symbol, "symbol"},
+    {Type::Function, "function"}
 };
 
 struct LisppObject {
