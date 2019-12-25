@@ -43,7 +43,7 @@ inline bool is_definition(const std::string& symbol)
 
 inline type::LisppObject definition_name(const type::LisppObject& expression)
 {
-        // def_pos: 1
+        // name_pos: 1
         // (def <name> <value>)
         // _^___^______^______
         //  0   1      2
@@ -118,18 +118,18 @@ inline bool is_local_assignment(const std::string& symbol)
 inline std::vector<type::LisppObject>
 local_variables(const type::LisppObject& expression)
 {
-        // vars_pos: 1
+        // variables_pos: 1
         // (let (<name> <value>) <body>)
         // _^___^________________^______
         //  0   1                2
-        size_t vars_pos = 1;
-        if (out_of_bounds(vars_pos, expression.items.size())) {
+        size_t variables_pos = 1;
+        if (out_of_bounds(variables_pos, expression.items.size())) {
                 throw ill_form_error("missing local names.\n\n"
                                      "(let (<name> <value>) <body>)\n"
                                      "_____^_______________________");
         }
-        auto vars = expression.items.at(vars_pos);
-        return vars.items;
+        auto variables = expression.items.at(variables_pos);
+        return variables.items;
 }
 
 inline type::LisppObject local_body(const type::LisppObject& expression)
@@ -157,18 +157,18 @@ inline bool is_function(const std::string& symbol)
 inline std::vector<type::LisppObject>
 function_parameters(const type::LisppObject& expression)
 {
-        // params_pos: 1
+        // parameters_pos: 1
         // (fn  (<parameters>) <body>)
         // _^___^______________^______
         //  0   1              2
-        size_t params_pos = 1;
-        if (out_of_bounds(params_pos, expression.items.size())) {
+        size_t parameters_pos = 1;
+        if (out_of_bounds(parameters_pos, expression.items.size())) {
                 throw ill_form_error("missing function paramters.\n\n"
                                      "(fn (<parameters>) <body>)\n"
                                      "____^_____________________");
         }
-        auto params = expression.items.at(params_pos);
-        return params.items;
+        auto parameters = expression.items.at(parameters_pos);
+        return parameters.items;
 }
 
 inline type::LisppObject function_body(const type::LisppObject& expression)
@@ -223,43 +223,43 @@ inline bool is_if(const std::string& symbol)
 
 inline type::LisppObject if_predicate(const type::LisppObject& expression)
 {
-        // pred_pos: 1
+        // predicate_pos: 1
         // (if (<predicate>) <consequent> <?-alternative>)
         // _^___^____________^____________^_____________
         //  0   1            2            3
-        size_t pred_pos = 1;
-        if (out_of_bounds(pred_pos, expression.items.size())) {
+        size_t predicate_pos = 1;
+        if (out_of_bounds(predicate_pos, expression.items.size())) {
                 throw ill_form_error(
                     "missing predicate.\n\n"
                     "(if (<predicate>) <consequent> <?-alternative>)\n"
                     "_____^_________________________________________");
         }
-        return expression.items.at(pred_pos);
+        return expression.items.at(predicate_pos);
 }
 
 inline type::LisppObject if_consequent(const type::LisppObject& expression)
 {
-        // conseq_pos: 2
+        // consequent_pos: 2
         // (if (<predicate>) <consequent> <?-alternative>)
         // _^___^____________^____________^______________
         //  0   1            2            3
-        size_t conseq_pos = 2;
-        if (out_of_bounds(conseq_pos, expression.items.size())) {
+        size_t consequent_pos = 2;
+        if (out_of_bounds(consequent_pos, expression.items.size())) {
                 throw ill_form_error(
                     "missing consequent.\n\n"
                     "(if (<predicate>) <consequent> <?-alternative>)\n"
                     "__________________^____________________________");
         }
-        return expression.items.at(conseq_pos);
+        return expression.items.at(consequent_pos);
 }
 
 inline type::LisppObject if_alternative(const type::LisppObject& expression)
 {
-        size_t alt_pos = 3;
+        size_t alternative_pos = 3;
         if (expression.items.size() < 4) {
                 return type::LisppObject::create_nil();
         }
-        return expression.items.at(alt_pos);
+        return expression.items.at(alternative_pos);
 }
 
 } // namespace syntax
