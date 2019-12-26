@@ -12,7 +12,7 @@ namespace syntax {
 
 // Excuse my poor regex-ing...
 static inline const std::string grammar =
-    "(<=|>=|<|>|[-+*/^%~=])|\"(.)*\"|(\\d)+|(\\w+\\?*)|\\(|\\)";
+    "(-?\\d+\\.?\\d*)|(<=|>=|<|>|[-+*/^%~=])|(\"(.)*\")|(\\w+\\?*)|(\\(|\\))";
 
 // Keyword Syntax
 
