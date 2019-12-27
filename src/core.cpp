@@ -4,7 +4,8 @@ using namespace type;
 
 namespace {
 
-void set_io(std::unordered_map<std::string, core::CoreFunction>& ns) {
+void set_io(std::unordered_map<std::string, core::CoreFunction>& ns)
+{
         ns["print"] = &core::print;
 }
 
@@ -40,11 +41,15 @@ void set_type_predicates(
 void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
 {
         ns["not"] = &core::_not;
-        ns["="] = &core::equal;
+}
+
+void set_comparisons(std::unordered_map<std::string, core::CoreFunction>& ns)
+{
         ns["<"] = &core::less;
         ns["<="] = &core::less_eq;
         ns[">"] = &core::greater;
         ns[">="] = &core::greater_eq;
+        ns["="] = &core::equal;
 }
 
 LisppObject equal_helper(const LisppObject& l1, const LisppObject& l2)
@@ -82,13 +87,15 @@ std::unordered_map<std::string, core::CoreFunction> core::build_core()
         set_list_processing(ns);
         set_type_predicates(ns);
         set_logic(ns);
+        set_comparisons(ns);
         return ns;
 }
 
 // I/O
 
 /// (print <any>) -> LisppObject.Nil
-LisppObject core::print(std::vector<LisppObject> args) {
+LisppObject core::print(std::vector<LisppObject> args)
+{
         if (args.size() != 1) {
                 throw invalid_arg_size("(print <any>)", 1, args.size());
         }
@@ -98,7 +105,7 @@ LisppObject core::print(std::vector<LisppObject> args) {
 
 // Arithmetic
 
-/// (+ <atom-1> ... <atom-n) -> LisppObject.Number
+/// (+ <atom-1> ... <atom-n>) -> LisppObject.Number
 LisppObject core::add(std::vector<LisppObject> args)
 {
         auto sum = 0;
@@ -108,7 +115,7 @@ LisppObject core::add(std::vector<LisppObject> args)
         return LisppObject::create_number(sum);
 }
 
-/// (- <atom-1> ... <atom-n) -> LisppObject.Number
+/// (- <atom-1> ... <atom-n>) -> LisppObject.Number
 LisppObject core::sub(std::vector<LisppObject> args)
 {
         if (args.empty()) {
@@ -125,7 +132,7 @@ LisppObject core::sub(std::vector<LisppObject> args)
         return LisppObject::create_number(diff);
 }
 
-/// (* <atom-1> ... <atom-n) -> LisppObject.Number
+/// (* <atom-1> ... <atom-n>) -> LisppObject.Number
 LisppObject core::mul(std::vector<LisppObject> args)
 {
         auto prod = 1;
@@ -135,7 +142,7 @@ LisppObject core::mul(std::vector<LisppObject> args)
         return LisppObject::create_number(prod);
 }
 
-/// (/ <atom-1> ... <atom-n) -> LisppObject.Number
+/// (/ <atom-1> ... <atom-n>) -> LisppObject.Number
 LisppObject core::div(std::vector<LisppObject> args)
 {
         if (args.empty()) {
@@ -158,7 +165,7 @@ LisppObject core::div(std::vector<LisppObject> args)
 
 // List Processing
 
-// (list <atom-1 | list-1> ... <atom-n | list-n ) -> LisppObject.List
+// (list <atom-1 | list-1> ... <atom-n | list-n> ) -> LisppObject.List
 LisppObject core::list(std::vector<LisppObject> args)
 {
         return LisppObject::create_list(args);
@@ -302,7 +309,9 @@ LisppObject core::_not(std::vector<LisppObject> args)
                                                   : LisppObject::create_false();
 }
 
-/// (< <atom-1> ... <atom-n) -> LisppObject.True | LisppObject.False
+// Comparison
+
+/// (< <atom-1> ... <atom-n>) -> LisppObject.True | LisppObject.False
 LisppObject core::less(std::vector<LisppObject> args)
 {
         for (auto it = args.begin(); it != args.end() - 1; it++) {
