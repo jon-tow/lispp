@@ -13,26 +13,17 @@ bool is_string_delimited(const std::string& token)
 
 std::optional<int> tokens_to_number(const std::string& token)
 {
+        // TODO: Make `number` double-type when GCC/Clang adds support for
+        // floating-point `std::from_chars`. This will make `LisppObject.number`
+        // floating-point compatible.
         auto number = 0;
         auto data = token.data();
-        auto sz = token.size();
-        auto [p, ec] = std::from_chars(data, data + sz, number);
+        auto size = token.size();
+        auto [p, ec] = std::from_chars(data, data + size, number);
         if (ec != std::errc()) {
                 return std::nullopt;
         }
         return number;
-}
-
-std::string replace(const std::string& text, const std::string& old,
-                    const std::string& update)
-{
-        std::string str(text);
-        auto pos = str.find(old);
-        while (pos != std::string::npos) {
-                str = str.replace(pos, old.length(), update);
-                pos = str.find(old, pos + update.length());
-        }
-        return str;
 }
 
 std::string clean(const std::string& text)
