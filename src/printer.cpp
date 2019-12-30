@@ -11,7 +11,7 @@ std::string ast_to_string(const LisppObject& ast)
 
         switch (ast.type) {
         case Type::String:
-                result = "\"" + ast.string + "\"";
+                result = ast.string;
                 break;
         case Type::Number:
                 result = std::to_string(ast.number);
