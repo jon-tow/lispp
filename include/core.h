@@ -8,8 +8,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "printer.h"
 #include "exception.h"
+#include "printer.h"
 #include "type.h"
 
 namespace core {
@@ -44,13 +44,17 @@ type::LisppObject is_symbol(std::vector<type::LisppObject> args);
 type::LisppObject is_number(std::vector<type::LisppObject> args);
 
 // Logic
-type::LisppObject
-_not(std::vector<type::LisppObject> args); // `_not` to avoid C++ keyword clash
-type::LisppObject equal(std::vector<type::LisppObject> args);
+// Note: `_` prefix to avoid C++ keyword clash.
+type::LisppObject _not(std::vector<type::LisppObject> args);
+type::LisppObject _and(std::vector<type::LisppObject> args);
+type::LisppObject _or(std::vector<type::LisppObject> args);
+
+// Comparisons
 type::LisppObject less(std::vector<type::LisppObject> args);
 type::LisppObject less_eq(std::vector<type::LisppObject> args);
 type::LisppObject greater(std::vector<type::LisppObject> args);
 type::LisppObject greater_eq(std::vector<type::LisppObject> args);
+type::LisppObject equal(std::vector<type::LisppObject> args);
 
 } // namespace core
 

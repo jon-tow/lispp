@@ -41,6 +41,8 @@ void set_type_predicates(
 void set_logic(std::unordered_map<std::string, core::CoreFunction>& ns)
 {
         ns["not"] = &core::_not;
+        ns["and"] = &core::_and;
+        ns["or"] = &core::_or;
 }
 
 void set_comparisons(std::unordered_map<std::string, core::CoreFunction>& ns)
@@ -307,6 +309,28 @@ LisppObject core::_not(std::vector<LisppObject> args)
         }
         return (args.front().type == Type::False) ? LisppObject::create_true()
                                                   : LisppObject::create_false();
+}
+
+/// (and <bool-1> ... <bool-n>) -> LisppObject.True | LisppObject.False
+LisppObject core::_and(std::vector<LisppObject> args)
+{
+        for (const auto& arg : args) {
+                if (arg.is_false()) {
+                        return LisppObject::create_false();
+                }
+        }
+        return LisppObject::create_true();
+}
+
+/// (and <bool-1> ... <bool-n>) -> LisppObject.True | LisppObject.False
+LisppObject core::_or(std::vector<LisppObject> args)
+{
+        for (const auto& arg : args) {
+                if (arg.is_true()) {
+                        return LisppObject::create_true();
+                }
+        }
+        return LisppObject::create_false();
 }
 
 // Comparison
