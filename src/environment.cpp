@@ -7,7 +7,7 @@ void Environment::set(const std::string& sym, const LisppObject& value)
         symbols[sym] = value;
 }
 
-LisppObject Environment::lookup(const std::string& sym)
+LisppObject Environment::lookup(const std::string& sym) const
 {
         std::optional<Environment> opt = find(sym);
         if (opt.has_value()) {
@@ -19,7 +19,7 @@ LisppObject Environment::lookup(const std::string& sym)
         }
 }
 
-std::optional<Environment> Environment::find(const std::string& sym)
+std::optional<Environment> Environment::find(const std::string& sym) const
 {
         bool found = symbols.find(sym) != symbols.end();
         if (found) {
@@ -33,7 +33,7 @@ std::optional<Environment> Environment::find(const std::string& sym)
         }
 }
 
-void Environment::print_symbols()
+void Environment::print_symbols() const
 {
         for (const auto& sym : symbols) {
                 std::cout << sym.first << std::endl;

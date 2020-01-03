@@ -19,16 +19,17 @@ class Environment {
         {
         }
 
-        type::LisppObject lookup(const std::string& sym);
+        type::LisppObject lookup(const std::string& sym) const;
         void set(const std::string& sym, const type::LisppObject& value);
-        void print_symbols();
+        void print_symbols() const;
 
         static Environment setup();
 
       private:
+        std::optional<Environment> find(const std::string& sym) const;
+
         std::shared_ptr<Environment> parent;
         std::unordered_map<std::string, type::LisppObject> symbols;
-        std::optional<Environment> find(const std::string& sym);
 };
 
 #endif // ENVIRONMENT_H
