@@ -10,14 +10,14 @@
 int main()
 {
         Environment global_env = Environment::setup();
-        std::string line;
+        std::string input;
 
         printer::welcome();
         while (true) {
                 printer::prompt();
-                std::getline(std::cin, line);
+                input = interpreter::getinput();
                 try {
-                        auto output = interpreter::REP(line, global_env);
+                        auto output = interpreter::REP(input, global_env);
                         printer::format_print(output);
                 }
                 catch (std::runtime_error err) {

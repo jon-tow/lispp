@@ -1,5 +1,12 @@
 #include "interpreter.h"
 
+std::string interpreter::getinput()
+{
+        std::string input;
+        std::getline(std::cin, input);
+        return input;
+}
+
 std::string interpreter::REP(const std::string& line, Environment& env)
 {
         auto expression = Reader::read(line);
