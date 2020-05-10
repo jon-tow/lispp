@@ -8,4 +8,4 @@ set (SOURCES
     printer.cpp
 )
 
-add_library(src ${SOURCES})
+add_library(${PROJECT_NAME}_lib STATIC ${SOURCES})
