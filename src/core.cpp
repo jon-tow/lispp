@@ -110,7 +110,7 @@ LisppObject core::print(std::vector<LisppObject> args)
 /// (+ <atom-1> ... <atom-n>) -> LisppObject.Number
 LisppObject core::add(std::vector<LisppObject> args)
 {
-        auto sum = 0;
+        auto sum = 0.0;
         for (const auto& arg : args) {
                 sum += arg.number;
         }
@@ -137,7 +137,7 @@ LisppObject core::sub(std::vector<LisppObject> args)
 /// (* <atom-1> ... <atom-n>) -> LisppObject.Number
 LisppObject core::mul(std::vector<LisppObject> args)
 {
-        auto prod = 1;
+        auto prod = 1.0;
         for (const auto& arg : args) {
                 prod *= arg.number;
         }

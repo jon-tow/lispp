@@ -24,7 +24,7 @@ static std::unordered_map<Type, std::string> types = {
 
 struct LisppObject {
         Type type = Type::Nil;
-        double number = 0;
+        double number = 0.0;
         std::string symbol = "";
         std::string string = "";
         std::vector<LisppObject> items;

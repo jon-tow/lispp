@@ -1,4 +1,5 @@
 #include "reader.h"
+#include "type.h"
 
 using namespace type;
 
@@ -11,17 +12,25 @@ bool is_string_delimited(const std::string& token)
         return token.at(0) == '"';
 }
 
-std::optional<int> tokens_to_number(const std::string& token)
+std::optional<double> token_to_number(const std::string& token)
 {
         // TODO: Make `number` double-type when GCC/Clang adds support for
         // floating-point `std::from_chars`. This will make `LisppObject.number`
         // floating-point compatible.
-        auto number = 0;
-        auto data = token.data();
-        auto size = token.size();
-        auto [p, ec] = std::from_chars(data, data + size, number);
-        if (ec != std::errc()) {
-                return std::nullopt;
+        // double number = 0.0;
+        // auto data = token.data();
+        // auto size = token.size();
+        // auto [p, ec] = std::from_chars(data, data + size, number);
+        // if (ec != std::errc()) {
+        //         return std::nullopt;
+        // }
+        // Temporary Hack.
+        std::optional<double> number = std::nullopt;
+        try {
+                number = std::stod(token.c_str());
+        }
+        catch (const std::invalid_argument& ia) {
+                /// Ignore the exception.
         }
         return number;
 }
@@ -105,15 +114,15 @@ LisppObject Reader::read_string()
                  */
                 throw std::runtime_error("\n;Unbalanced string.\n");
         }
-        str = str.substr(1, str.length() - 2);
+        str = str.substr(1, str.length() - 2); // Remove string quotes: ""
         return LisppObject::create_string(str);
 }
 
 LisppObject Reader::read_atom()
 {
         std::string token = peek().value_or("");
-        if (tokens_to_number(token) != std::nullopt) {
-                auto num = tokens_to_number(token).value();
+        if (token_to_number(token) != std::nullopt) {
+                auto num = token_to_number(token).value();
                 return LisppObject::create_number(num);
         }
         else if (token == type::types[Type::True]) {
