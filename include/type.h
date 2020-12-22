@@ -9,24 +9,20 @@
 
 namespace type {
 
+// TODO: Come up with a boolean type instead of this True/False type hack. 
 enum class Type { Nil, True, False, Number, String, List, Symbol, Function };
 
 static std::unordered_map<Type, std::string> types = {
-    {Type::Nil, "nil"},
-    {Type::True, "true"},
-    {Type::False, "false"},
-    {Type::Number, "number"},
-    {Type::String, "string"},
-    {Type::List, "list"},
-    {Type::Symbol, "symbol"},
-    {Type::Function, "function"}
-};
+    {Type::Nil, "nil"},       {Type::True, "true"},
+    {Type::False, "false"},   {Type::Number, "number"},
+    {Type::String, "string"}, {Type::List, "list"},
+    {Type::Symbol, "symbol"}, {Type::Function, "function"}};
 
 struct LisppObject {
         Type type = Type::Nil;
         double number = 0.0;
-        std::string symbol = "";
-        std::string string = "";
+        std::string symbol;
+        std::string string;
         std::vector<LisppObject> items;
         std::function<LisppObject(std::vector<LisppObject>)> lambda;
 
@@ -41,50 +37,50 @@ struct LisppObject {
 
         static LisppObject create_nil()
         {
-                LisppObject exp = {.type = Type::Nil};
+                LisppObject exp{.type = Type::Nil};
                 return exp;
         }
 
         static LisppObject create_number(double number)
         {
-                LisppObject exp = {.type = Type::Number, .number = number};
+                LisppObject exp{.type = Type::Number, .number = number};
                 return exp;
         }
 
         static LisppObject create_string(const std::string& string)
         {
-                LisppObject exp = {.type = Type::String, .string = string};
+                LisppObject exp{.type = Type::String, .string = string};
                 return exp;
         }
 
         static LisppObject create_symbol(const std::string& symbol)
         {
-                LisppObject exp = {.type = Type::Symbol, .symbol = symbol};
+                LisppObject exp{.type = Type::Symbol, .symbol = symbol};
                 return exp;
         }
 
         static LisppObject create_list(const std::vector<LisppObject>& list)
         {
-                LisppObject exp = {.type = Type::List, .items = list};
+                LisppObject exp{.type = Type::List, .items = list};
                 return exp;
         }
 
         static LisppObject create_function(
             std::function<LisppObject(std::vector<LisppObject>)> function)
         {
-                LisppObject exp = {.type = Type::Function, .lambda = function};
+                LisppObject exp{.type = Type::Function, .lambda = function};
                 return exp;
         }
 
         static LisppObject create_true()
         {
-                LisppObject t = {.type = Type::True};
+                LisppObject t{.type = Type::True};
                 return t;
         }
 
         static LisppObject create_false()
         {
-                LisppObject f = {.type = Type::False};
+                LisppObject f{.type = Type::False};
                 return f;
         }
 };

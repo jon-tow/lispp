@@ -1,5 +1,5 @@
-#ifndef ENVIRONMENT_H
-#define ENVIRONMENT_H
+#ifndef FRAME_H
+#define FRAME_H
 
 #include <iostream>
 #include <memory>
@@ -7,29 +7,26 @@
 #include <string>
 #include <unordered_map>
 
-#include "core.h"
 #include "exception.h"
+#include "operators.h"
 #include "type.h"
 
-class Environment {
+class Frame {
       public:
-        Environment() = default;
-        Environment(std::shared_ptr<Environment> parent)
-            : parent(std::move(parent))
-        {
-        }
+        Frame() = default;
+        Frame(std::shared_ptr<Frame> parent) : parent(std::move(parent)) {}
 
         type::LisppObject lookup(const std::string& sym) const;
         void set(const std::string& sym, const type::LisppObject& value);
         void print_symbols() const;
 
-        static Environment setup();
+        static Frame global();
 
       private:
-        std::optional<Environment> find(const std::string& sym) const;
+        std::optional<Frame> find(const std::string& sym) const;
 
-        std::shared_ptr<Environment> parent;
+        std::shared_ptr<Frame> parent;
         std::unordered_map<std::string, type::LisppObject> symbols;
 };
 
-#endif // ENVIRONMENT_H
+#endif // FRAME_H

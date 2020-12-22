@@ -5,13 +5,6 @@ using namespace type;
 
 namespace {
 
-bool is_list_delimited(const std::string& token) { return token == "("; }
-
-bool is_string_delimited(const std::string& token)
-{
-        return token.at(0) == '"';
-}
-
 std::optional<double> token_to_number(const std::string& token)
 {
         // TODO: Make `number` double-type when GCC/Clang adds support for
@@ -37,7 +30,7 @@ std::optional<double> token_to_number(const std::string& token)
 
 std::string clean(const std::string& text)
 {
-        std::string clean(text);
+        std::string clean{text};
         clean.erase(std::remove(clean.begin(), clean.end(), ','), clean.end());
         return clean;
 }
@@ -45,10 +38,10 @@ std::string clean(const std::string& text)
 std::vector<std::string> split(const std::string& text,
                                const std::string regex_str)
 {
-        std::vector<std::string> split;
-        std::regex regex(regex_str);
+        std::regex regex{regex_str};
         std::sregex_token_iterator iter(text.begin(), text.end(), regex);
         std::sregex_token_iterator end;
+        std::vector<std::string> split;
         for (; iter != end; iter++) {
                 split.push_back(*iter);
         }
@@ -67,7 +60,7 @@ LisppObject Reader::read(const std::string& program)
 
 std::vector<std::string> Reader::tokenize(const std::string& text)
 {
-        std::string cleansed_text = clean(text);
+        std::string cleansed_text{clean(text)};
         auto tokens = split(cleansed_text, syntax::grammar);
         return tokens;
 }
@@ -75,10 +68,10 @@ std::vector<std::string> Reader::tokenize(const std::string& text)
 LisppObject Reader::read_form()
 {
         std::string token = peek().value_or("");
-        if (is_list_delimited(token)) {
+        if (syntax::is_list_delimited(token)) {
                 return read_list();
         }
-        else if (is_string_delimited(token)) {
+        else if (syntax::is_string_delimited(token)) {
                 return read_string();
         }
         else {

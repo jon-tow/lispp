@@ -7,7 +7,7 @@
 class unbound_symbol_error : public std::runtime_error {
       public:
         unbound_symbol_error(const std::string& what)
-            : std::runtime_error("\n;Unbound symbol: " + what + ".\n")
+            : std::runtime_error("\n;Unbound symbol: " + what + "\n")
         {
         }
 };

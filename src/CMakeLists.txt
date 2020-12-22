@@ -1,8 +1,8 @@
 set (SOURCES
     main.cpp
-    core.cpp
+    operators.cpp
     reader.cpp
-    environment.cpp
+    frame.cpp
     evaluator.cpp
     interpreter.cpp
     printer.cpp

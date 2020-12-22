@@ -14,6 +14,35 @@ namespace syntax {
 static inline const std::string grammar =
     "(-?\\d+\\.?\\d*)|(<=|>=|<|>|[-+*/^%~=])|(\"(.)*\")|(\\w+\\?*)|(\\(|\\))";
 
+// Delimiter Syntax Classes
+
+enum class DelimiterKind {
+        comment,
+        empty,
+        list,
+        string,
+};
+
+static std::unordered_map<DelimiterKind, char> delimiters = {
+    {DelimiterKind::comment, '#'},
+    {DelimiterKind::list, '('},
+    {DelimiterKind::string, '"'}};
+
+inline bool is_comment_delimited(const std::string& token)
+{
+        return token.at(0) == delimiters[DelimiterKind::comment];
+}
+
+inline bool is_list_delimited(const std::string& token)
+{
+        return token.at(0) == delimiters[DelimiterKind::list];
+}
+
+inline bool is_string_delimited(const std::string& token)
+{
+        return token.at(0) == delimiters[DelimiterKind::string];
+}
+
 // Keyword Syntax
 
 enum class KeywordKind {
@@ -209,8 +238,8 @@ apply_arguments(const type::LisppObject& expression)
         // _^_______________^___________^_______
         //  0               1           n
         // TODO: Make sure number operands are same as what's expected?
-        std::vector<type::LisppObject> l = expression.items;
-        std::vector<type::LisppObject> arguments(l.begin() + 1, l.end());
+        std::vector<type::LisppObject> l{expression.items};
+        std::vector<type::LisppObject> arguments{l.begin() + 1, l.end()};
         return arguments;
 }
 

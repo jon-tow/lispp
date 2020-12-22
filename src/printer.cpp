@@ -7,7 +7,7 @@ namespace {
 std::string ast_to_string(const LisppObject& ast)
 {
         std::string result;
-        std::string padding = " ";
+        std::string padding{" "};
 
         switch (ast.type) {
         case Type::String:
@@ -54,19 +54,19 @@ std::string printer::print(const LisppObject& ast)
 
 void printer::format_print(const std::string& ast_str)
 {
-        std::string value_prompt = ";Value: ";
-        std::string output = "\n" + value_prompt + ast_str + "\n";
+        std::string value_prompt{";Value: "};
+        std::string output{"\n" + value_prompt + ast_str + "\n"};
         std::cout << output << std::endl;
 }
 
 void printer::prompt()
 {
-        std::string prompt = "]=> ";
+        std::string prompt{"]=> "};
         std::cout << prompt;
 }
 
 void printer::welcome()
 {
-        std::string welcome = "\nWelcome to Lispp.\nA LISP in C++.\n";
+        std::string welcome{"\nWelcome to Lispp.\nA LISP in C++.\n"};
         std::cout << welcome << std::endl;
 }

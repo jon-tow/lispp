@@ -15,7 +15,6 @@
 
 class Reader {
       public:
-        Reader() = default;
         Reader(const std::vector<std::string>& tokens)
             : tokens{tokens}, position{0}
         {
