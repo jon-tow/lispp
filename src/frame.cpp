@@ -15,7 +15,7 @@ LisppObject Frame::lookup(const std::string& sym) const
                 return frame.symbols[sym];
         }
         else {
-                throw unbound_symbol_error(sym);
+                throw exception::unbound_symbol_error(sym);
         }
 }
 

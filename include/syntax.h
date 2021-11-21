@@ -78,9 +78,9 @@ inline type::LisppObject definition_name(const type::LisppObject& expression)
         //  0   1      2
         size_t name_pos = 1;
         if (out_of_bounds(name_pos, expression.items.size())) {
-                throw ill_form_error("missing definition name\n\n"
-                                     "(def <name> <value>)\n"
-                                     "_____^______________");
+                throw exception::ill_form_error("missing definition name\n\n"
+                                                "(def <name> <value>)\n"
+                                                "_____^______________");
         }
         return expression.items.at(name_pos);
 }
@@ -93,9 +93,9 @@ inline type::LisppObject definition_value(const type::LisppObject& expression)
         //  0   1      2
         size_t value_pos = 2;
         if (out_of_bounds(value_pos, expression.items.size())) {
-                throw ill_form_error("missing definition value\n\n"
-                                     "(def <name> <value>)\n"
-                                     "____________^_______");
+                throw exception::ill_form_error("missing definition value\n\n"
+                                                "(def <name> <value>)\n"
+                                                "____________^_______");
         }
         return expression.items.at(value_pos);
 }
@@ -115,9 +115,9 @@ inline type::LisppObject variable_name(const type::LisppObject& expression)
         //  0   1      2
         size_t name_pos = 1;
         if (out_of_bounds(name_pos, expression.items.size())) {
-                throw ill_form_error("missing variable name\n\n"
-                                     "(set <name> <update>)\n"
-                                     "_____^_______________");
+                throw exception::ill_form_error("missing variable name\n\n"
+                                                "(set <name> <update>)\n"
+                                                "_____^_______________");
         }
         return expression.items.at(name_pos);
 }
@@ -130,9 +130,9 @@ inline type::LisppObject variable_update(const type::LisppObject& expression)
         //  0   1      2
         size_t update_pos = 2;
         if (out_of_bounds(update_pos, expression.items.size())) {
-                throw ill_form_error("missing variable update\n\n"
-                                     "(set <name> <update>)\n"
-                                     "____________^________");
+                throw exception::ill_form_error("missing variable update\n\n"
+                                                "(set <name> <update>)\n"
+                                                "____________^________");
         }
         return expression.items.at(update_pos);
 }
@@ -153,9 +153,10 @@ local_variables(const type::LisppObject& expression)
         //  0   1                2
         size_t variables_pos = 1;
         if (out_of_bounds(variables_pos, expression.items.size())) {
-                throw ill_form_error("missing local names.\n\n"
-                                     "(let (<name> <value>) <body>)\n"
-                                     "_____^_______________________");
+                throw exception::ill_form_error(
+                    "missing local names.\n\n"
+                    "(let (<name> <value>) <body>)\n"
+                    "_____^_______________________");
         }
         auto variables = expression.items.at(variables_pos);
         return variables.items;
@@ -169,9 +170,10 @@ inline type::LisppObject local_body(const type::LisppObject& expression)
         //  0   1                2
         size_t body_pos = 2;
         if (out_of_bounds(body_pos, expression.items.size())) {
-                throw ill_form_error("missing local assignment body.\n\n"
-                                     "(let (<name> <value>) <body>)\n"
-                                     "______________________^______");
+                throw exception::ill_form_error(
+                    "missing local assignment body.\n\n"
+                    "(let (<name> <value>) <body>)\n"
+                    "______________________^______");
         }
         return expression.items.at(body_pos);
 }
@@ -192,9 +194,10 @@ function_parameters(const type::LisppObject& expression)
         //  0   1              2
         size_t parameters_pos = 1;
         if (out_of_bounds(parameters_pos, expression.items.size())) {
-                throw ill_form_error("missing function paramters.\n\n"
-                                     "(fn (<parameters>) <body>)\n"
-                                     "____^_____________________");
+                throw exception::ill_form_error(
+                    "missing function paramters.\n\n"
+                    "(fn (<parameters>) <body>)\n"
+                    "____^_____________________");
         }
         auto parameters = expression.items.at(parameters_pos);
         return parameters.items;
@@ -208,9 +211,9 @@ inline type::LisppObject function_body(const type::LisppObject& expression)
         //  0   1              2
         size_t body_pos = 2;
         if (out_of_bounds(body_pos, expression.items.size())) {
-                throw ill_form_error("missing function body.\n\n"
-                                     "(fn (<parameters>) <body>)\n"
-                                     "___________________^______");
+                throw exception::ill_form_error("missing function body.\n\n"
+                                                "(fn (<parameters>) <body>)\n"
+                                                "___________________^______");
         }
         return expression.items.at(body_pos);
 }
@@ -225,7 +228,7 @@ inline type::LisppObject apply_function(const type::LisppObject& expression)
         //  0               1           n
         auto function = expression.items.front();
         if (!function.is_function()) {
-                throw ill_form_error("object is not callable");
+                throw exception::ill_form_error("object is not callable");
         }
         return function;
 }
@@ -258,7 +261,7 @@ inline type::LisppObject if_predicate(const type::LisppObject& expression)
         //  0   1            2            3
         size_t predicate_pos = 1;
         if (out_of_bounds(predicate_pos, expression.items.size())) {
-                throw ill_form_error(
+                throw exception::ill_form_error(
                     "missing predicate.\n\n"
                     "(if (<predicate>) <consequent> <?-alternative>)\n"
                     "_____^_________________________________________");
@@ -274,7 +277,7 @@ inline type::LisppObject if_consequent(const type::LisppObject& expression)
         //  0   1            2            3
         size_t consequent_pos = 2;
         if (out_of_bounds(consequent_pos, expression.items.size())) {
-                throw ill_form_error(
+                throw exception::ill_form_error(
                     "missing consequent.\n\n"
                     "(if (<predicate>) <consequent> <?-alternative>)\n"
                     "__________________^____________________________");

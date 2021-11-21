@@ -4,6 +4,16 @@
 #include <stdexcept>
 #include <string>
 
+namespace exception {
+
+class eof_input_error : public std::runtime_error {
+      public:
+        eof_input_error(const std::string& what = "")
+            : std::runtime_error("\nEnd of input stream reached.")
+        {
+        }
+};
+
 class unbound_symbol_error : public std::runtime_error {
       public:
         unbound_symbol_error(const std::string& what)
@@ -31,5 +41,7 @@ class invalid_arg_size : public std::runtime_error {
         {
         }
 };
+
+} // namespace exception
 
 #endif // EXCEPTION_H

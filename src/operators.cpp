@@ -97,7 +97,8 @@ LisppObject operators::div(std::vector<LisppObject> args)
 LisppObject operators::print(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(print <any>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(print <any>)", 1, args.size());
         }
         std::cout << printer::print(args.at(0));
         return LisppObject::create_nil();
@@ -115,7 +116,8 @@ LisppObject operators::list(std::vector<LisppObject> args)
 LisppObject operators::is_empty(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(empty? <list>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(empty? <list>)", 1, args.size());
         }
         auto list = args.front();
         return list.items.empty() ? LisppObject::create_true()
@@ -126,7 +128,8 @@ LisppObject operators::is_empty(std::vector<LisppObject> args)
 LisppObject operators::count(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(count <list>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(count <list>)", 1, args.size());
         }
         auto list = args.front();
         auto count = list.items.size();
@@ -137,7 +140,8 @@ LisppObject operators::count(std::vector<LisppObject> args)
 LisppObject operators::first(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(first <list>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(first <list>)", 1, args.size());
         }
 
         auto list = args.front();
@@ -153,7 +157,8 @@ LisppObject operators::first(std::vector<LisppObject> args)
 LisppObject operators::rest(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(rest <list>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(rest <list>)", 1, args.size());
         }
 
         auto list = args.front();
@@ -175,7 +180,8 @@ LisppObject operators::rest(std::vector<LisppObject> args)
 LisppObject operators::_not(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(not <list>)", args.size(), 1);
+                throw exception::invalid_arg_size(
+                        "(not <list>)", args.size(), 1);
         }
         return (args.front().type == Type::False) ? LisppObject::create_true()
                                                   : LisppObject::create_false();
@@ -273,7 +279,8 @@ LisppObject operators::not_equal(std::vector<LisppObject> args)
 LisppObject operators::is_list(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(list? <list>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(list? <list>)", 1, args.size());
         }
         auto list = args.front();
         return list.is_list() ? LisppObject::create_true()
@@ -284,7 +291,8 @@ LisppObject operators::is_list(std::vector<LisppObject> args)
 LisppObject operators::is_nil(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(nil? <any>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(nil? <any>)", 1, args.size());
         }
         auto any = args.front();
         return any.is_nil() ? LisppObject::create_true()
@@ -295,7 +303,8 @@ LisppObject operators::is_nil(std::vector<LisppObject> args)
 LisppObject operators::is_true(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(true? <any>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(true? <any>)", 1, args.size());
         }
         auto any = args.front();
         return any.is_true() ? LisppObject::create_true()
@@ -306,7 +315,8 @@ LisppObject operators::is_true(std::vector<LisppObject> args)
 LisppObject operators::is_false(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(false? <any>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(false? <any>)", 1, args.size());
         }
         auto any = args.front();
         return any.is_false() ? LisppObject::create_true()
@@ -317,7 +327,8 @@ LisppObject operators::is_false(std::vector<LisppObject> args)
 LisppObject operators::is_symbol(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(symbol? <any>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(symbol? <any>)", 1, args.size());
         }
         auto any = args.front();
         return any.is_symbol() ? LisppObject::create_true()
@@ -328,7 +339,8 @@ LisppObject operators::is_symbol(std::vector<LisppObject> args)
 LisppObject operators::is_number(std::vector<LisppObject> args)
 {
         if (args.size() != 1) {
-                throw invalid_arg_size("(number? <any>)", 1, args.size());
+                throw exception::invalid_arg_size(
+                        "(number? <any>)", 1, args.size());
         }
         auto any = args.front();
         return any.is_number() ? LisppObject::create_true()

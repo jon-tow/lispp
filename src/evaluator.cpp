@@ -85,9 +85,9 @@ LisppObject eval_function(const LisppObject& ast, Frame& frame)
                    &frame](std::vector<LisppObject> arguments) {
                 Frame local{std::make_shared<Frame>(frame)};
                 if (arguments.size() != parameters.size()) {
-                        throw invalid_arg_size("The procedure",
-                                               arguments.size(),
-                                               parameters.size());
+                        throw exception::invalid_arg_size("The procedure",
+                                                          arguments.size(),
+                                                          parameters.size());
                 }
                 for (size_t i = 0; i < parameters.size(); i++) {
                         auto parameter = parameters.at(i);

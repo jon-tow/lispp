@@ -1,5 +1,4 @@
 #include "reader.h"
-#include "type.h"
 
 using namespace type;
 
@@ -50,6 +49,7 @@ std::vector<std::string> split(const std::string& text,
 
 } // namespace
 
+// Parse a `program` into `Lispp` internal representation.
 LisppObject Reader::read(const std::string& program)
 {
         auto tokens = tokenize(program);
@@ -58,6 +58,7 @@ LisppObject Reader::read(const std::string& program)
         return form;
 }
 
+// Simple lexical analysis based on splitting.
 std::vector<std::string> Reader::tokenize(const std::string& text)
 {
         std::string cleansed_text{clean(text)};
@@ -65,8 +66,12 @@ std::vector<std::string> Reader::tokenize(const std::string& text)
         return tokens;
 }
 
+// Read a `Lispp` expression from the internal tokenized string.
 LisppObject Reader::read_form()
 {
+        if (tokens.empty()) {
+                throw std::runtime_error("\n;Unexpected EOF.\n");
+        }
         std::string token = peek().value_or("");
         if (syntax::is_list_delimited(token)) {
                 return read_list();
